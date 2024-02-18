@@ -10,7 +10,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       minecraft-server-info
  *
- * @package           create-block
+ * @package           minecraft-server-info
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,7 +24,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-function minecraft_server_info_minecraft_server_info_block_init() {
-	register_block_type( __DIR__ . '/build' );
+function minecraft_server_info_init() {
+	register_block_type( __DIR__ . '/build',[
+		'render_callback' => __NAMESPACE__ . '\\render_callback_msi'
+	]);
 }
-add_action( 'init', 'minecraft_server_info_minecraft_server_info_block_init' );
+
+/**
+ * Renders a Table of Contents block for a post
+ * @param array $attributes An array of attributes for the Table of Contents block
+ * @return string The HTML output for the Table of Contents block
+ */
+function render_callback_msi($attributes){
+	return  "<p>Hello from PHP</p>";
+}
+
+add_action( 'init', 'minecraft_server_info_init' );
