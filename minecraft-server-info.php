@@ -52,10 +52,22 @@ function render_callback_msi($attributes)
 }
 
 
-function retrieveData( $hostname, $pingonly = true, $port = 25565,  ) {
-	
-	$data = new MinecraftData($hostname, $port, $pingonly);
-
-	return $data->Motd;
-
+function retrieveData($hostname, $pingonly = true, $port = 25565) {
+    $data = new MSI\MinecraftData($hostname, $port, $pingonly);
+    
+    // Check the server status and prepare a message
+    $serverStatus = $data->IsOnline ? 'Server is online' : 'Server is offline';
+    
+    // Prepare output with HTML formatting for clarity
+    $output = "<strong>Server Status:</strong> {$serverStatus}<br />";
+    $output .= "<strong>MOTD:</strong> {$data->Motd}<br />";
+    $output .= "<strong>Max Players:</strong> {$data->PlayersMax}<br />";
+    $output .= "<strong>Players Online:</strong> {$data->PlayersOnline}<br />";
+    if ($data->IsOnline) {
+        $output .= "<strong>Server Version:</strong> {$data->ServerVersion}<br />";
+        // Optionally, list players if any are online and if you've stored them
+        
+    }
+    
+    return $output;
 }

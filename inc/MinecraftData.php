@@ -8,27 +8,31 @@ require __DIR__ . '/MinecraftPingException.php';
 use xPaw\MinecraftPing;
 use xPaw\MinecraftPingException;
 
-class MinecraftData{
+class MinecraftData {
     public int $PlayersOnline = 0; // Initialize with default value
-    public int $PlayersMax = 0; // Assuming you might want to track max players as well
+    public int $PlayersMax = 0; // Initialize with default value
     public string $ServerVersion = ""; // Initialize with default value
     public string $Motd = "Server is offline"; // Default message, assuming server is offline
     public bool $IsOnline = false; // To track server status
 
-    public function __construct(string $Hostname, int $Port = 25565, bool $PingOnly = true){
+    public function __construct(string $Hostname, int $Port = 25565, bool $PingOnly = true) {
         $Query = null; // Declare $Query to ensure it's defined for the finally block
 
         try {
             $Query = new MinecraftPing($Hostname, $Port);
 
-            if ($PingOnly == true) {
+            if ($PingOnly === true) {
                 $data = $Query->QueryOldPre17();
-                $this->PlayersOnline = $data['Players'];
-                $this->Motd = $data['HostName'];
+                $this->PlayersOnline = (int)$data['Players'];
+                $this->PlayersMax = (int)$data['MaxPlayers'];
+                $this->ServerVersion = (string)$data['Version'];
+                $this->Motd = (string)$data['HostName'];
             } else {
                 $data = $Query->Query();
-                $this->PlayersOnline = $data['players']['online'];
-                $this->Motd = $data['description'];
+                $this->PlayersOnline = (int)$data['players']['online'];
+                $this->PlayersMax = (int)$data['players']['max'];
+                $this->ServerVersion = (string)$data['version']['name'];
+                $this->Motd = (string)$data['description'];
             }
 
             $this->IsOnline = true; // Server is online
@@ -42,4 +46,7 @@ class MinecraftData{
             }
         }
     }
+
+    // Optionally, add getter methods here to safely access the properties...
 }
+
