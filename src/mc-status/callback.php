@@ -111,6 +111,11 @@ function renderServerData($serverData, $currentPlayers) {
         }
     }
 
+    // Sort offline players by "last seen" in ascending order
+    uasort($offlinePlayers, function($a, $b) {
+        return $a['lastSeen'] <=> $b['lastSeen'];
+    });
+
     // Server metadata output
     $output = "<table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
     $output .= "<tr><td><strong>Server Status:</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
@@ -127,10 +132,11 @@ function renderServerData($serverData, $currentPlayers) {
     foreach ($onlinePlayers as $id => $player) {
         $output .= formatPlayerRow($id, $player, true, $wpTimezone);
     }
-    // Then, list offline players
-    foreach ($offlinePlayers as $id => $player) {
-        $output .= formatPlayerRow($id, $player, false, $wpTimezone);
-    }
+// Then, list offline players (now sorted and correctly handled)
+foreach ($offlinePlayers as $id => $player) {
+    // Ensure we're passing the correct structure and values to formatPlayerRow
+    $output .= formatPlayerRow($id, $player, false, $wpTimezone);
+}
 
     $output .= "</table>";
     return $output;
@@ -142,7 +148,7 @@ function renderServerData($serverData, $currentPlayers) {
 function formatPlayerRow($id, $player, $isOnline, $wpTimezone) {
     $avatarURL = "https://mc-heads.net/avatar/{$id}";
     $playerName = $player['name'];
-    $lastSeenFormat = $isOnline ? "Online" : "Last Seen: " . (new DateTime('@' . $player['lastSeen']))->setTimezone($wpTimezone)->format("Y-m-d H:i:s");
+    $lastSeenFormat = $isOnline ? "<span class='playeronline'>Online</span>" : "Last Seen: " . (new DateTime('@' . $player['lastSeen']))->setTimezone($wpTimezone)->format("Y-m-d H:i:s");
 
     $row = "<tr>";
     $row .= "<td><img src='{$avatarURL}' alt='{$playerName}'s Avatar' width='30' height='30'></td>";
@@ -152,6 +158,8 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone) {
 
     return $row;
 }
+
+
 
 
 
