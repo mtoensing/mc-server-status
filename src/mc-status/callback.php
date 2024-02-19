@@ -85,43 +85,74 @@ function updatePlayerData($currentPlayers) {
  * Renders the server data including player information.
  */
 function renderServerData($serverData, $currentPlayers) {
-    // Retrieve saved player data
+    // Set WordPress timezone to match the site's settings
+    $wpTimezone = wp_timezone();
+
+    // Retrieve and prepare player data
     $savedPlayers = get_option('minecraft_player_data', []);
     if (!is_array($savedPlayers)) {
         $savedPlayers = [];
     }
 
-    // Determine currently online players
+    // Determine currently online players and update the max players ever seen if necessary
     $onlinePlayerIds = array_column($currentPlayers, 'id');
+    $currentOnlineCount = count($onlinePlayerIds);
+    $maxPlayersEverSeen = max($currentOnlineCount, get_option('minecraft_max_players_ever_seen', 0));
+    update_option('minecraft_max_players_ever_seen', $maxPlayersEverSeen);
 
-    // Here you would add rows for server metadata like MOTD, version, etc.
+    // Separate players into online and offline for sorting
+    $onlinePlayers = [];
+    $offlinePlayers = [];
+    foreach ($savedPlayers as $id => $player) {
+        if (in_array($id, $onlinePlayerIds)) {
+            $onlinePlayers[$id] = $player;
+        } else {
+            $offlinePlayers[$id] = $player;
+        }
+    }
+
+    // Server metadata output
     $output = "<table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
-    $output .= "<tr><td><strong>Server Status:</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'online' : 'offline') . "</td></tr>";
+    $output .= "<tr><td><strong>Server Status:</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
     $output .= "<tr><td><strong>MOTD:</strong></td><td>{$serverData['Motd']}</td></tr>";
     $output .= "<tr><td><strong>Server Version:</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
-    $output .= "<tr><td><strong>Max Players:</strong></td><td>{$serverData['PlayersMax']}</td></tr>";
-    $output .= "<tr><td><strong>Players Online:</strong></td><td>{$serverData['PlayersOnline']}</td></tr>";
+    // Dynamically display the current and maximum players
     $output .= "</table>";
+
+    // Player table with dynamic online count
     $output .= "<table class='minecraftserverinfo'>";
-    $output .= "<thead><tr><th colspan='3'><strong>Players <span class='text-muted'>(2/49 online)</span></strong></th></tr></thead>"; 
+    $output .= "<thead><tr><th colspan='3'><strong>Players <span class='text-muted'>($currentOnlineCount/$maxPlayersEverSeen online)</span></strong></th></tr></thead>";
 
-    foreach ($savedPlayers as $id => $player) {
-        $avatarURL = "https://mc-heads.net/avatar/{$id}";
-        $isOnline = in_array($id, $onlinePlayerIds);
-        $playerName = $player['name'];
-        $lastSeen = isset($player['lastSeen']) ? date("Y-m-d H:i:s", $player['lastSeen']) : "Unknown";
-
-        $output .= "<tr>";
-        $output .= "<td><img src='{$avatarURL}' alt='{$playerName}'s Avatar' width='30' height='30'></td>";
-        $output .= "<td>{$playerName}</td>";
-        // Show "Online" for online players, "Last Seen" timestamp for others
-        $output .= "<td>" . ($isOnline ? "Online" : "Last Seen: {$lastSeen}") . "</td>";
-        $output .= "</tr>";
+    // First, list online players
+    foreach ($onlinePlayers as $id => $player) {
+        $output .= formatPlayerRow($id, $player, true, $wpTimezone);
+    }
+    // Then, list offline players
+    foreach ($offlinePlayers as $id => $player) {
+        $output .= formatPlayerRow($id, $player, false, $wpTimezone);
     }
 
     $output .= "</table>";
     return $output;
 }
+
+/**
+ * Helper function to format a player row.
+ */
+function formatPlayerRow($id, $player, $isOnline, $wpTimezone) {
+    $avatarURL = "https://mc-heads.net/avatar/{$id}";
+    $playerName = $player['name'];
+    $lastSeenFormat = $isOnline ? "Online" : "Last Seen: " . (new DateTime('@' . $player['lastSeen']))->setTimezone($wpTimezone)->format("Y-m-d H:i:s");
+
+    $row = "<tr>";
+    $row .= "<td><img src='{$avatarURL}' alt='{$playerName}'s Avatar' width='30' height='30'></td>";
+    $row .= "<td>{$playerName}</td>";
+    $row .= "<td>{$lastSeenFormat}</td>";
+    $row .= "</tr>";
+
+    return $row;
+}
+
 
 
 /**
