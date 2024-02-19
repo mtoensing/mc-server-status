@@ -13,4 +13,14 @@
   padding: 2px;
 }
 
+.minecraftserverinfo .status {
+  color: darkred;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.minecraftserverinfo.isonline .status {
+  color: darkgreen;
+}
+
 /*# sourceMappingURL=style-index.css.map*/
