@@ -15,33 +15,43 @@ function render_status($attributes)
 }
 
 
-function retrieveData($hostname, $pingonly = true, $port = 25565) {
-    $data = new MSI\MinecraftData($hostname, $port, $pingonly);
+function retrieveData($hostname, $port = 25565) {
+    $data = new MSI\MinecraftData($hostname, $port);
     
-    // Check the server status and prepare a message
+    // Check the server status
     $serverStatus = $data->IsOnline ? 'Server is online' : 'Server is offline';
     
-    // Prepare output with HTML formatting for clarity
-    $output = "<strong>Server Status:</strong> {$serverStatus}<br />";
-    $output .= "<strong>MOTD:</strong> {$data->Motd}<br />";
-    $output .= "<strong>Max Players:</strong> {$data->PlayersMax}<br />";
-    $output .= "<strong>Players Online:</strong> {$data->PlayersOnline}<br />";
+    // Determine the table class based on server status
+    $tableClass = $data->IsOnline ? 'isonline' : '';
+
+    // Start the table with or without the "isonline" class
+    $output = "<table class='{$tableClass}'>";
+    $output .= "<tr><td><strong>Server Status:</strong></td><td>{$serverStatus}</td></tr>";
+    $output .= "<tr><td><strong>MOTD:</strong></td><td>{$data->Motd}</td></tr>";
+    $output .= "<tr><td><strong>Server Version:</strong></td><td>{$data->ServerVersion}</td></tr>";
+    $output .= "<tr><td><strong>Max Players:</strong></td><td>{$data->PlayersMax}</td></tr>";
+    $output .= "<tr><td><strong>Players Online:</strong></td><td>{$data->PlayersOnline}</td></tr>";
     
     if ($data->IsOnline && !empty($data->Players)) {
-        // Server version could be displayed regardless of players being online
-        $output .= "<strong>Server Version:</strong> {$data->ServerVersion}<br />";
+        foreach ($data->Players as $player) {
+            $avatarURL = "https://mc-heads.net/avatar/{$player['id']}";
+            $playerName = $player['name'];
+            $lastSeen = "Not Available"; // Placeholder for last seen info
 
-        // List players
-        $playerNames = array_map(function($player) {
-            return $player['name']; // Assuming you stored player data with 'name' keys
-        }, $data->Players);
-
-        $playerList = implode(", ", $playerNames); // Convert player names array to a comma-separated string
-        $output .= "<strong>Players:</strong> {$playerList}<br />";
-    } else {
-        // Display server version even if no players are online
-        $output .= "<strong>Server Version:</strong> {$data->ServerVersion}<br />";
+            // Now each player's info will be in a single row within the main table
+            $output .= "<tr>";
+            $output .= "<td><img src='{$avatarURL}' alt='{$playerName}'s Avatar' width='30' height='30'></td>";
+            $output .= "<td>{$playerName}</td>";
+            $output .= "<td>Last Seen: {$lastSeen}</td>";
+            $output .= "</tr>";
+        }
     }
+    
+    // Close the table
+    $output .= "</table>";
     
     return $output;
 }
+
+
+

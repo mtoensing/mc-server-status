@@ -12,7 +12,7 @@ class MinecraftData {
     public int $PlayersOnline = 0; // Initialize with default value
     public int $PlayersMax = 0; // Initialize with default value
     public string $ServerVersion = ""; // Initialize with default value
-    public string $Motd = "Server is offline"; // Default message, assuming server is offline
+    public string $Motd = ""; // Default message
     public bool $IsOnline = false; // To track server status
     public array $Players = [];
 
@@ -22,13 +22,6 @@ class MinecraftData {
         try {
             $Query = new MinecraftPing($Hostname, $Port);
 
-            if ($PingOnly === true) {
-                $data = $Query->QueryOldPre17();
-                $this->PlayersOnline = (int)$data['Players'];
-                $this->PlayersMax = (int)$data['MaxPlayers'];
-                $this->ServerVersion = (string)$data['Version'];
-                $this->Motd = (string)$data['HostName'];
-            } else {
                 $data = $Query->Query();
                 $this->PlayersOnline = (int)$data['players']['online'];
                 $this->PlayersMax = (int)$data['players']['max'];
@@ -42,7 +35,6 @@ class MinecraftData {
                             'id' => $player['id'],
                             'name' => $player['name']
                         ];
-                    }
                 }
             }
 
@@ -57,7 +49,5 @@ class MinecraftData {
             }
         }
     }
-
-    // Optionally, add getter methods here to safely access the properties...
 }
 

@@ -35,9 +35,11 @@ function minecraft_server_info_init()
         'render_callback' => 'render_status'
     ]);
 
+    /*
     register_block_type(plugin_dir_path(__FILE__) . 'build/mc-players', [
         'render_callback' => 'render_players'
     ]);
+    */
 
 }
 add_action('init', 'minecraft_server_info_init');

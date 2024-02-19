@@ -15,8 +15,8 @@ function render_players($attributes)
 }
 
 
-function retrieveDataPlayers($hostname, $pingonly = true, $port = 25565) {
-    $data = new MSI\MinecraftData($hostname, $port, $pingonly);
+function retrieveDataPlayers($hostname, $port = 25565) {
+    $data = new MSI\MinecraftData($hostname, $port);
     
     // Check the server status and prepare a message
     $serverStatus = $data->IsOnline ? 'Server is online' : 'Server is offline';
@@ -31,9 +31,6 @@ function retrieveDataPlayers($hostname, $pingonly = true, $port = 25565) {
     */
     
     if ($data->IsOnline && !empty($data->Players)) {
-        // Server version could be displayed regardless of players being online
-        $output .= "<strong>Server Version:</strong> {$data->ServerVersion}<br />";
-
         // List players
         $playerNames = array_map(function($player) {
             return $player['name']; // Assuming you stored player data with 'name' keys
@@ -41,9 +38,6 @@ function retrieveDataPlayers($hostname, $pingonly = true, $port = 25565) {
 
         $playerList = implode(", ", $playerNames); // Convert player names array to a comma-separated string
         $output .= "<strong>Players:</strong> {$playerList}<br />";
-    } else {
-        // Display server version even if no players are online
-        $output .= "<strong>Server Version:</strong> {$data->ServerVersion}<br />";
     }
     
     return $output;
