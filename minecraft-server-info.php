@@ -12,10 +12,9 @@
  *
  * @package           minecraft-server-info
  */
-
  require __DIR__ . '/inc/MinecraftData.php';
-
- use MSI\MinecraftData;
+ require dirname(__FILE__). '/src/mc-players/callback.php';
+ require dirname(__FILE__). '/src/mc-status/callback.php';
 
 
 if (! defined('ABSPATH')) {
@@ -31,55 +30,15 @@ if (! defined('ABSPATH')) {
  */
 function minecraft_server_info_init()
 {
-    register_block_type(__DIR__ . '/build', [
-        'render_callback' => __NAMESPACE__ . '\\render_callback_msi'
+
+    register_block_type(plugin_dir_path(__FILE__) . 'build/mc-status', [
+        'render_callback' => 'render_status'
     ]);
+
+    register_block_type(plugin_dir_path(__FILE__) . 'build/mc-players', [
+        'render_callback' => 'render_players'
+    ]);
+
 }
 add_action('init', 'minecraft_server_info_init');
-
-/**
- * Renders a Table of Contents block for a post
- * @param array $attributes An array of attributes for the Table of Contents block
- * @return string The HTML output for the Table of Contents block
- */
-function render_callback_msi($attributes)
-{
-    $hostname = 'mc.marc.tv';
-
-	$html = retrieveData($hostname, false);
-
-    return  $html;
-}
-
-
-function retrieveData($hostname, $pingonly = true, $port = 25565) {
-    $data = new MSI\MinecraftData($hostname, $port, $pingonly);
-    
-    // Check the server status and prepare a message
-    $serverStatus = $data->IsOnline ? 'Server is online' : 'Server is offline';
-    
-    // Prepare output with HTML formatting for clarity
-    $output = "<strong>Server Status:</strong> {$serverStatus}<br />";
-    $output .= "<strong>MOTD:</strong> {$data->Motd}<br />";
-    $output .= "<strong>Max Players:</strong> {$data->PlayersMax}<br />";
-    $output .= "<strong>Players Online:</strong> {$data->PlayersOnline}<br />";
-    
-    if ($data->IsOnline && !empty($data->Players)) {
-        // Server version could be displayed regardless of players being online
-        $output .= "<strong>Server Version:</strong> {$data->ServerVersion}<br />";
-
-        // List players
-        $playerNames = array_map(function($player) {
-            return $player['name']; // Assuming you stored player data with 'name' keys
-        }, $data->Players);
-
-        $playerList = implode(", ", $playerNames); // Convert player names array to a comma-separated string
-        $output .= "<strong>Players:</strong> {$playerList}<br />";
-    } else {
-        // Display server version even if no players are online
-        $output .= "<strong>Server Version:</strong> {$data->ServerVersion}<br />";
-    }
-    
-    return $output;
-}
 

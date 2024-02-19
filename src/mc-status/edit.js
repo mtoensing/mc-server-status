@@ -15,7 +15,7 @@ export default function Edit(attributes) {
 	return (
 		<p { ...useBlockProps() }>
 			<ServerSideRender
-					block="minecraft-server-info/status"
+					block="minecraft-server-info/mc-status"
 					attributes={ attributes }
 				/>
 		</p>

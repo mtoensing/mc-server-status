@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "minecraft-server-info/status",
+	"name": "minecraft-server-info/mc-players",
 	"version": "0.1.1",
-	"title": "Minecraft Server Info",
+	"title": "Minecraft Server Players",
 	"category": "widgets",
 	"icon": "smiley",
 	"description": "Example block scaffolded with Create Block tool.",
