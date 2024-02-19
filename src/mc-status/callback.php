@@ -1,9 +1,4 @@
 <?php
-
-
-
-// Assuming the MSI namespace and MinecraftData class are defined elsewhere as provided earlier
-
 /**
  * Initializes scheduled events for updating Minecraft server data.
  */
@@ -21,7 +16,7 @@ add_action('init', 'setup_minecraft_cron_job');
  */
 function update_minecraft_server_data()
 {
-    retrieveData('minestream.ru', 25565); // Replace with your server details
+    retrieveData('mc.marc.tv', 25565); // Replace with your server details
 }
 
 add_action('update_minecraft_data', 'update_minecraft_server_data');
@@ -63,9 +58,6 @@ function retrieveData($hostname, $port = 25565)
 
     return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname);
 }
-
-
-
 
 /**
  * Updates or initializes the player data including their last seen time.
@@ -181,7 +173,7 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
  */
 function render_status($attributes)
 {
-    $html = retrieveData('minestream.ru', 25565); // Replace with your server details
+    $html = retrieveData('mc.marc.tv', 25565); // Replace with your server details
     return $html;
 }
 
@@ -195,11 +187,8 @@ function add_every_ten_minutes_schedule($schedules)
 }
 add_filter('cron_schedules', 'add_every_ten_minutes_schedule');
 
-function get_server_cache_key($hostname, $port, $prefix = '')
-{
-    // Sanitize the hostname to remove protocols and slashes
+function get_server_cache_key($hostname, $port, $prefix = '') {
     $sanitizedHostname = preg_replace('#^https?://#', '', rtrim($hostname, '/'));
-    // Generate a unique cache key
     $cacheKey = $prefix . 'minecraft_data_' . md5($sanitizedHostname . '_' . $port);
     return $cacheKey;
 }
