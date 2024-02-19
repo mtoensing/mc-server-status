@@ -56,7 +56,8 @@ function retrieveData($hostname, $port = 25565)
         ];
     }
 
-    return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname);
+    return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname, $port);
+
 }
 
 /**
@@ -91,13 +92,15 @@ function updatePlayerData($currentPlayers, $playerDataKey)
 /**
  * Renders the server data including player information.
  */
-function renderServerData($serverData, $currentPlayers, $hostname)
-{
-    // Set WordPress timezone to match the site's settings
+function renderServerData($serverData, $currentPlayers, $hostname, $port) {
+
     $wpTimezone = wp_timezone();
 
-    // Retrieve and prepare player data
-    $savedPlayers = get_option('minecraft_player_data', []);
+    // Generate the unique cache key for player data of this server
+    $playerDataKey = get_server_cache_key($hostname, $port, 'player_data_');
+
+    // Use the unique key to retrieve player data for the current server
+    $savedPlayers = get_option($playerDataKey, []);
     if (!is_array($savedPlayers)) {
         $savedPlayers = [];
     }
