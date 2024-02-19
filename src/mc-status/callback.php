@@ -8,7 +8,7 @@
  */
 function setup_minecraft_cron_job() {
     if (!wp_next_scheduled('update_minecraft_data')) {
-        wp_schedule_event(time(), 'hourly', 'update_minecraft_data');
+        wp_schedule_event(time(), 'every_ten_minutes', 'update_minecraft_data');
     }
 }
 
@@ -181,3 +181,12 @@ function render_status($attributes) {
     $html = retrieveData('mc.marc.tv', 25565); // Replace with your server details
     return $html;
 }
+
+function add_every_ten_minutes_schedule($schedules) {
+    $schedules['every_ten_minutes'] = [
+        'interval' => 600, // 10 minutes in seconds
+        'display' => __('Every Ten Minutes')
+    ];
+    return $schedules;
+}
+add_filter('cron_schedules', 'add_every_ten_minutes_schedule');
