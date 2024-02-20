@@ -1,6 +1,7 @@
 === Minecraft Server Info ===
 Contributors:      The WordPress Contributors
 Tags:              block
+Contributors:      MarcDK
 Tested up to:      6.1
 Stable tag:        0.1.0
 License:           GPL-2.0-or-later

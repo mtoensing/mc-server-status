@@ -164,7 +164,7 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
     $lastSeenFormat = $isOnline ? "<span class='playeronline'>Online</span>" : "Last Seen: " . (new DateTime('@' . $player['lastSeen']))->setTimezone($wpTimezone)->format("Y-m-d H:i:s");
 
     $row = "<tr>";
-    $row .= "<td><img src='{$avatarURL}' alt='{$playerName}'s Avatar' width='18' height='18'> {$playerName}</td>";
+    $row .= "<td>{$playerName} <img src='{$avatarURL}' alt='{$playerName}'s Avatar' width='18' height='18'></td>";
     $row .= "<td>{$lastSeenFormat}</td>";
     $row .= "</tr>";
 
@@ -183,8 +183,8 @@ function render_status($attributes)
 function add_every_ten_minutes_schedule($schedules)
 {
     $schedules['every_ten_minutes'] = [
-        'interval' => 600, // 10 minutes in seconds
-        'display' => __('Every Ten Minutes')
+        'interval' => 60, // 10 minutes in seconds
+        'display' => __('Every 60 Seconds')
     ];
     return $schedules;
 }
