@@ -1,25 +1,4 @@
 <?php
-/**
- * Initializes scheduled events for updating Minecraft server data.
- */
-function setup_minecraft_cron_job()
-{
-    if (!wp_next_scheduled('update_minecraft_data')) {
-        wp_schedule_event(time(), 'every_ten_minutes', 'update_minecraft_data');
-    }
-}
-
-add_action('init', 'setup_minecraft_cron_job');
-
-/**
- * Handles the scheduled event to update Minecraft server data.
- */
-function update_minecraft_server_data()
-{
-    retrieveData('mc.marc.tv', 25565); // Replace with your server details
-}
-
-add_action('update_minecraft_data', 'update_minecraft_server_data');
 
 /**
  * Retrieves Minecraft server data and updates cached information.
@@ -130,16 +109,16 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port)
 
     // Server metadata output
     $output = "<figure class='wp-block-table is-style-stripes'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
-    $output .= "<tr><td><strong>" . __('Status', 'minecraft-server-info') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
-    $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info') . "</strong></td><td>" . $hostname . "</td></tr>";
-    $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
-    $output .= "<tr><td><strong>" . __('Version', 'minecraft-server-info') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
+    $output .= "<tr><td><strong>" . __('Status', 'minecraft-server-info-block') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
+    $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info-block') . "</strong></td><td>" . $hostname . "</td></tr>";
+    $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
+    $output .= "<tr><td><strong>" . __('Version', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
     // Dynamically display the current and maximum players
     $output .= "</table></figure>";
 
     // Player table with dynamic online count
     $output .= "<figure class='wp-block-table is-style-stripes'><table class='minecraftserverinfo players'>";
-    $output .= "<thead><tr><th colspan='2'><strong>" . __('Players', 'minecraft-server-info') . " <span class='text-muted'>($currentOnlineCount/$maxPlayersEverSeen " . __('online', 'minecraft-server-info') . ")</span></strong></th></tr></thead>";
+    $output .= "<thead><tr><th colspan='2'><strong>" . __('Players', 'minecraft-server-info-block') . " <span class='text-muted'>($currentOnlineCount/$maxPlayersEverSeen " . __('online', 'minecraft-server-info-block') . ")</span></strong></th></tr></thead>";
 
     // First, list online players
     foreach ($onlinePlayers as $id => $player) {
@@ -162,10 +141,22 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
 {
     $avatarURL = "https://mc-heads.net/avatar/{$id}";
     $playerName = $player['name'];
+
+    // Ensure you have the current timestamp in the WordPress-configured timezone
+    $current_time = new DateTime("now", wp_timezone());
+
+    // Assuming $player['lastSeen'] is a Unix timestamp, convert it to a DateTime object in the WordPress-configured timezone
+    $last_seen_time = new DateTime("@{$player['lastSeen']}");
+    $last_seen_time->setTimezone(wp_timezone());
+
+    // Calculate the human-readable time difference
+    $last_seen_diff = human_time_diff($last_seen_time->getTimestamp(), $current_time->getTimestamp());
+
+    // Prepare the display format
     $lastSeenFormat = $isOnline ? "<span class='playeronline'>Online</span>" : sprintf(
         /* translators: %s: human-readable time difference */
-        __('Last Seen: %s ago', 'minecraft-server-info'),
-        human_time_diff($player['lastSeen'], current_time('timestamp'))
+        __('Last Seen: %s ago', 'minecraft-server-info-block'),
+        $last_seen_diff
     );
 
     $row = "<tr>";
@@ -181,19 +172,11 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
  */
 function render_status($attributes)
 {
-    $html = retrieveData($attributes['address'], $attributes['port']); // Replace with your server details
+    $address = $attributes['address'] ?? '';
+    $port = $attributes['port'] ?? '25565';
+    $html = retrieveData($address, $port);
     return $html;
 }
-
-function add_every_ten_minutes_schedule($schedules)
-{
-    $schedules['every_ten_minutes'] = [
-        'interval' => 60, // 10 minutes in seconds
-        'display' => __('Every 60 Seconds')
-    ];
-    return $schedules;
-}
-add_filter('cron_schedules', 'add_every_ten_minutes_schedule');
 
 function get_server_cache_key($hostname, $port, $prefix = '')
 {

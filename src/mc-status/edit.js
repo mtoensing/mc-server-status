@@ -17,10 +17,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				<PanelBody>
 					<PanelRow>
 						<TextControl
-							label={ __( 'Address', 'minecraft-server-info' ) }
+							label={ __( 'Address', 'minecraft-server-info-block' ) }
 							help={ __(
 								'The Minecraft Server address without https.',
-								'minecraft-server-info'
+								'minecraft-server-info-block'
 							) }
 							value={ attributes.address }
 							onChange={ ( value ) =>
@@ -32,8 +32,8 @@ export default function Edit( { attributes, setAttributes } ) {
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label={ __( 'Port', 'minecraft-server-info' ) }
-							help={ __( 'Port', 'minecraft-server-info' ) }
+							label={ __( 'Port', 'minecraft-server-info-block' ) }
+							help={ __( 'Port', 'minecraft-server-info-block' ) }
 							value={ attributes.port }
 							onChange={ ( value ) =>
 								setAttributes( {
@@ -52,7 +52,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			{ controls }
 			{ controlssidebar }
 			<ServerSideRender
-				block="minecraft-server-info/mc-status"
+				block="minecraft-server-info-block/mc-status"
 				attributes={ attributes }
 			/>
 		</p>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Minecraft Server Status Block
+ * Plugin Name:       Minecraft Server Info Block
  * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
@@ -8,9 +8,9 @@
  * Author:            Marc Tönsing
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       minecraft-server-info
+ * Text Domain:       minecraft-server-info-block
  *
- * @package           minecraft-server-info
+ * @package           minecraft-server-info-block
  */
  require __DIR__ . '/inc/MinecraftData.php';
  require dirname(__FILE__). '/src/mc-players/callback.php';

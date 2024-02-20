@@ -14,7 +14,7 @@ Displays the Minecraft server status along with the active players. Just provide
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/minecraft-server-info` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/minecraft-server-info-block` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Screenshots ==
