@@ -181,7 +181,7 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
  */
 function render_status($attributes)
 {
-    $html = retrieveData('mc.marc.tv', 25565); // Replace with your server details
+    $html = retrieveData($attributes['address'], $attributes['port']); // Replace with your server details
     return $html;
 }
 
