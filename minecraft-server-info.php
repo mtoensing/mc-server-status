@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name:       Minecraft Server Status
- * Description:       Show information about a Minecraft Server as a block.
+ * Plugin Name:       Minecraft Server Status Block
+ * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           1.0.0

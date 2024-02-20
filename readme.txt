@@ -1,4 +1,4 @@
-=== Minecraft Server Status ===
+=== Minecraft Server Info Block ===
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
 Tested up to:      6.1
