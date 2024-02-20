@@ -122,9 +122,9 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port) {
         }
     }
 
-    // Sort offline players by "last seen" in ascending order
+    // Sort offline players by "last seen" in descending order
     uasort($offlinePlayers, function ($a, $b) {
-        return $a['lastSeen'] <=> $b['lastSeen'];
+        return $b['lastSeen'] <=> $a['lastSeen'];
     });
 
     // Server metadata output
