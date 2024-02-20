@@ -92,7 +92,8 @@ function updatePlayerData($currentPlayers, $playerDataKey)
 /**
  * Renders the server data including player information.
  */
-function renderServerData($serverData, $currentPlayers, $hostname, $port) {
+function renderServerData($serverData, $currentPlayers, $hostname, $port)
+{
 
     $wpTimezone = wp_timezone();
 
@@ -128,17 +129,17 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port) {
     });
 
     // Server metadata output
-    $output = "<figure class='wp-block-table is-style-stripes'><table class='wp-block-table minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
-    $output .= "<tr><td><strong>Server Status:</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
-    $output .= "<tr><td><strong>Server Address:</strong></td><td>" . $hostname . "</td></tr>";
-    $output .= "<tr><td><strong>MOTD:</strong></td><td>{$serverData['Motd']}</td></tr>";
-    $output .= "<tr><td><strong>Server Version:</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
+    $output = "<figure class='wp-block-table is-style-stripes'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
+    $output .= "<tr><td><strong>" . __('Status', 'minecraft-server-info') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
+    $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info') . "</strong></td><td>" . $hostname . "</td></tr>";
+    $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
+    $output .= "<tr><td><strong>" . __('Version', 'minecraft-server-info') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
     // Dynamically display the current and maximum players
     $output .= "</table></figure>";
 
     // Player table with dynamic online count
-    $output .= "<figure class='wp-block-table is-style-stripes'><table class='minecraftserverinfo'>";
-    $output .= "<thead><tr><th colspan='2'><strong>Players <span class='text-muted'>($currentOnlineCount/$maxPlayersEverSeen online)</span></strong></th></tr></thead>";
+    $output .= "<figure class='wp-block-table is-style-stripes'><table class='minecraftserverinfo players'>";
+    $output .= "<thead><tr><th colspan='2'><strong>" . __('Players', 'minecraft-server-info') . " <span class='text-muted'>($currentOnlineCount/$maxPlayersEverSeen " . __('online', 'minecraft-server-info') . ")</span></strong></th></tr></thead>";
 
     // First, list online players
     foreach ($onlinePlayers as $id => $player) {
@@ -161,7 +162,11 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
 {
     $avatarURL = "https://mc-heads.net/avatar/{$id}";
     $playerName = $player['name'];
-    $lastSeenFormat = $isOnline ? "<span class='playeronline'>Online</span>" : "Last Seen: " . (new DateTime('@' . $player['lastSeen']))->setTimezone($wpTimezone)->format("Y-m-d H:i:s");
+    $lastSeenFormat = $isOnline ? "<span class='playeronline'>Online</span>" : sprintf(
+        /* translators: %s: human-readable time difference */
+        __('Last Seen: %s ago', 'minecraft-server-info'),
+        human_time_diff($player['lastSeen'], current_time('timestamp'))
+    );
 
     $row = "<tr>";
     $row .= "<td>{$playerName} <img src='{$avatarURL}' alt='{$playerName}'s Avatar' width='18' height='18'></td>";
@@ -190,7 +195,8 @@ function add_every_ten_minutes_schedule($schedules)
 }
 add_filter('cron_schedules', 'add_every_ten_minutes_schedule');
 
-function get_server_cache_key($hostname, $port, $prefix = '') {
+function get_server_cache_key($hostname, $port, $prefix = '')
+{
     $sanitizedHostname = preg_replace('#^https?://#', '', rtrim($hostname, '/'));
     $cacheKey = $prefix . 'minecraft_data_' . md5($sanitizedHostname . '_' . $port);
     return $cacheKey;
