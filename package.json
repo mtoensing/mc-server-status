@@ -1,6 +1,6 @@
 {
 	"name": "minecraft-server-info",
-	"version": "0.1.3",
+	"version": "1.0.0",
 	"description": "Example block scaffolded with Create Block tool.",
 	"author": "Marc Tönsing",
 	"license": "GPL-2.0-or-later",
@@ -22,7 +22,7 @@
 		"wp-int": "npm install @wordpress/scripts --save-dev --save-exact @wordpress/scripts"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^27.2.0"
+		"@wordpress/scripts": "27.2.0"
 	},
 	"dependencies": {
 		"@wordpress/icons": "^9.42.0"
