@@ -1,5 +1,4 @@
-=== Minecraft Server Info ===
-Contributors:      The WordPress Contributors
+=== Minecraft Server Status ===
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
 Tested up to:      6.1
