@@ -36,3 +36,8 @@ table.minecraftserverinfo .text-muted {
 table.minecraftserverinfo.players thead th {
 	text-align: left;
 }
+
+.wp-block-table .minecraftserverinfo td,
+.wp-block-table .minecraftserverinfo th {
+    padding: 0.5em;
+}
