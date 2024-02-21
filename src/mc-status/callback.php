@@ -138,17 +138,20 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port)
 /**
  * Helper function to format a player row.
  */
+/**
+ * Helper function to format a player row.
+ */
 function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
 {
     $avatarURL = "https://mc-heads.net/avatar/{$id}";
     $playerName = $player['name'];
 
     // Ensure you have the current timestamp in the WordPress-configured timezone
-    $current_time = new DateTime("now", wp_timezone());
+    $current_time = new DateTime("now", $wpTimezone);
 
     // Assuming $player['lastSeen'] is a Unix timestamp, convert it to a DateTime object in the WordPress-configured timezone
     $last_seen_time = new DateTime("@{$player['lastSeen']}");
-    $last_seen_time->setTimezone(wp_timezone());
+    $last_seen_time->setTimezone($wpTimezone);
 
     // Calculate the human-readable time difference
     $last_seen_diff = human_time_diff($last_seen_time->getTimestamp(), $current_time->getTimestamp());
@@ -160,13 +163,17 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
         $last_seen_diff
     );
 
-    $row = "<tr>";
+    // Modify the row class based on the online status
+    $rowClass = $isOnline ? "" : " class='text-muted'";
+
+    $row = "<tr{$rowClass}>";
     $row .= "<td><img src='{$avatarURL}' alt='{$playerName}s Avatar' width='18' height='18'>{$playerName} </td>";
     $row .= "<td>{$lastSeenFormat}</td>";
     $row .= "</tr>";
 
     return $row;
 }
+
 
 /**
  * Renders a Table of Contents block for a post.
