@@ -72,7 +72,7 @@ class MinecraftPing
 
 		if( $Socket === false )
 		{
-			throw new MinecraftPingException( "Failed to connect or create a socket: $errno ($errstr)" );
+			throw new MinecraftPingException( "Failed to connect or create a socket: esc_html($errno) esc_html($errstr)" );
 		}
 
 		$this->Socket = $Socket;
@@ -148,7 +148,7 @@ class MinecraftPing
 
 		if( \json_last_error( ) !== JSON_ERROR_NONE )
 		{
-			throw new MinecraftPingException( 'JSON parsing failed: ' . \json_last_error_msg( ) );
+			throw new MinecraftPingException( 'JSON parsing failed: ' . esc_js(\json_last_error_msg( )) );
 		}
 
 		if( !\is_array( $Data ) )
