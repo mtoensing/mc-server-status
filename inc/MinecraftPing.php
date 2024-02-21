@@ -72,7 +72,10 @@ class MinecraftPing
 
 		if( $Socket === false )
 		{
-			throw new MinecraftPingException( "Failed to connect or create a socket: esc_html($errno) esc_html($errstr)" );
+			if( $Socket === false ) {
+				throw new MinecraftPingException( 'Failed to connect or create a socket: ' . esc_html( $errno ) . ' ' . esc_html( $errstr ) );
+			}
+			
 		}
 
 		$this->Socket = $Socket;
