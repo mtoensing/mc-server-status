@@ -73,7 +73,6 @@ function updatePlayerData($currentPlayers, $playerDataKey)
  */
 function renderServerData($serverData, $currentPlayers, $hostname, $port)
 {
-
     $wpTimezone = wp_timezone();
 
     // Generate the unique cache key for player data of this server
@@ -85,13 +84,14 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port)
         $savedPlayers = [];
     }
 
-    // Determine currently online players and update the max players ever seen if necessary
+    // Count the total number of unique players ever seen
+    $totalPlayersEverSeen = count($savedPlayers);
+
+    // Determine currently online players
     $onlinePlayerIds = array_column($currentPlayers, 'id');
     $currentOnlineCount = count($onlinePlayerIds);
-    $maxPlayersEverSeen = max($currentOnlineCount, get_option('minecraft_max_players_ever_seen', 0));
-    update_option('minecraft_max_players_ever_seen', $maxPlayersEverSeen);
 
-    // Separate players into online and offline for sorting
+    // Separate players into online and offline for sorting and counting
     $onlinePlayers = [];
     $offlinePlayers = [];
     foreach ($savedPlayers as $id => $player) {
@@ -113,26 +113,27 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port)
     $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info-block') . "</strong></td><td>" . $hostname . "</td></tr>";
     $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
     $output .= "<tr><td><strong>" . __('Version', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
-    // Dynamically display the current and maximum players
     $output .= "</table></figure>";
 
-    // Player table with dynamic online count
+    // Player table with dynamic online count and total players ever seen
     $output .= "<figure class='wp-block-table is-style-stripes'><table class='minecraftserverinfo players'>";
-    $output .= "<thead><tr><th colspan='2'><strong>" . __('Players', 'minecraft-server-info-block') . " <span class='text-muted'>($currentOnlineCount/$maxPlayersEverSeen " . __('online', 'minecraft-server-info-block') . ")</span></strong></th></tr></thead>";
+    $output .= "<thead><tr><th colspan='2'><strong>" . __('Players', 'minecraft-server-info-block') . "<span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></strong></th></tr></thead>";
 
-    // First, list online players
+    // List online players
     foreach ($onlinePlayers as $id => $player) {
         $output .= formatPlayerRow($id, $player, true, $wpTimezone);
     }
-    // Then, list offline players (now sorted and correctly handled)
+    // List offline players (sorted by last seen)
     foreach ($offlinePlayers as $id => $player) {
-        // Ensure we're passing the correct structure and values to formatPlayerRow
         $output .= formatPlayerRow($id, $player, false, $wpTimezone);
     }
 
     $output .= "</table></figure>";
+
     return $output;
 }
+
+
 
 /**
  * Helper function to format a player row.
@@ -160,7 +161,7 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
     );
 
     $row = "<tr>";
-    $row .= "<td>{$playerName} <img src='{$avatarURL}' alt='{$playerName}'s Avatar' width='18' height='18'></td>";
+    $row .= "<td><img src='{$avatarURL}' alt='{$playerName}s Avatar' width='18' height='18'>{$playerName} </td>";
     $row .= "<td>{$lastSeenFormat}</td>";
     $row .= "</tr>";
 

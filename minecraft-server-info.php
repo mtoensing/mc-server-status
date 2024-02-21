@@ -13,7 +13,6 @@
  * @package           minecraft-server-info-block
  */
  require __DIR__ . '/inc/MinecraftData.php';
- require dirname(__FILE__). '/src/mc-players/callback.php';
  require dirname(__FILE__). '/src/mc-status/callback.php';
 
 
