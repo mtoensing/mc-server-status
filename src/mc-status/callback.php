@@ -3,7 +3,7 @@
 /**
  * Retrieves Minecraft server data and updates cached information.
  */
-function retrieveData($hostname, $port = 25565)
+function retrieveData($hostname, $attributes, $port = 25565, )
 {
     // Generate the unique cache key for this server
     $serverDataKey = get_server_cache_key($hostname, $port, 'server_data_');
@@ -35,7 +35,7 @@ function retrieveData($hostname, $port = 25565)
         ];
     }
 
-    return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname, $port);
+    return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname, $port,$attributes);
 
 }
 
@@ -71,9 +71,11 @@ function updatePlayerData($currentPlayers, $playerDataKey)
 /**
  * Renders the server data including player information.
  */
-function renderServerData($serverData, $currentPlayers, $hostname, $port)
+function renderServerData($serverData, $currentPlayers, $hostname, $port,$attributes)
 {
     $wpTimezone = wp_timezone();
+
+    $align_class = isset($attributes['align']) ? 'align' . $attributes['align'] : '';
 
     // Generate the unique cache key for player data of this server
     $playerDataKey = get_server_cache_key($hostname, $port, 'player_data_');
@@ -108,14 +110,14 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port)
     });
 
     // Server metadata output
-    $output = "<figure class='wp-block-table is-style-stripes'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
+    $output = "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
     $output .= "<tr><td><strong>" . __('Status', 'minecraft-server-info-block') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
     $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info-block') . "</strong></td><td>" . $hostname . "</td></tr>";
     $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
     $output .= "<tr><td><strong>" . __('Version', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
 
     // Player table with dynamic online count and total players ever seen
-    $output .= "<tr class='playerhead'><th colspan='2'><strong>" . __('Players', 'minecraft-server-info-block') . "<span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></strong></th></tr>";
+    $output .= "<tr class='playerhead'><th colspan='2'><strong>" . __('Players', 'minecraft-server-info-block') . "</strong><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th></tr>";
 
     // List online players
     foreach ($onlinePlayers as $id => $player) {
@@ -157,7 +159,7 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
     // Prepare the display format
     $lastSeenFormat = $isOnline ? "<span class='playeronline'>Online</span>" : sprintf(
         /* translators: %s: human-readable time difference */
-        __('Last Seen: %s ago', 'minecraft-server-info-block'),
+        __('%s ago', 'minecraft-server-info-block'),
         $last_seen_diff
     );
 
@@ -180,7 +182,7 @@ function render_status($attributes)
 {
     $address = $attributes['address'] ?? '';
     $port = $attributes['port'] ?? '25565';
-    $html = retrieveData($address, $port);
+    $html = retrieveData($address, $attributes, $port);
     return $html;
 }
 
