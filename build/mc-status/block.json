@@ -9,7 +9,10 @@
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},
   "supports": {
-    "html": false
+    "align": [
+      "wide",
+      "full"
+    ]
   },
   "textdomain": "minecraft-server-info-block",
   "editorScript": "file:./index.js",

@@ -113,11 +113,9 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port)
     $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info-block') . "</strong></td><td>" . $hostname . "</td></tr>";
     $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
     $output .= "<tr><td><strong>" . __('Version', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
-    $output .= "</table></figure>";
 
     // Player table with dynamic online count and total players ever seen
-    $output .= "<figure class='wp-block-table is-style-stripes'><table class='minecraftserverinfo players'>";
-    $output .= "<thead><tr><th colspan='2'><strong>" . __('Players', 'minecraft-server-info-block') . "<span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></strong></th></tr></thead>";
+    $output .= "<tr class='playerhead'><th colspan='2'><strong>" . __('Players', 'minecraft-server-info-block') . "<span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></strong></th></tr>";
 
     // List online players
     foreach ($onlinePlayers as $id => $player) {
@@ -167,7 +165,7 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
     $rowClass = $isOnline ? "" : " class='text-muted'";
 
     $row = "<tr{$rowClass}>";
-    $row .= "<td><img src='{$avatarURL}' alt='{$playerName}s Avatar' width='18' height='18'>{$playerName} </td>";
+    $row .= "<td><img src='{$avatarURL}' alt='{$playerName}s Avatar' width='18' height='18'> {$playerName} </td>";
     $row .= "<td>{$lastSeenFormat}</td>";
     $row .= "</tr>";
 
