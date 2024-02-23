@@ -147,6 +147,9 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port,$attrib
  */
 function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
 {
+    // Sanitize the ID since it's used in the URL
+    $id = sanitize_key($id); // Assuming $id is a string/alphanumeric key
+    $avatarURL = esc_url("https://mc-heads.net/avatar/{$id}");
     $avatarURL = esc_url("https://mc-heads.net/avatar/{$id}");
     $playerName = esc_html($player['name']);
 
