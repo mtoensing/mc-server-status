@@ -5,6 +5,10 @@
  */
 function retrieveData($hostname, $attributes, $port = 25565, )
 {
+    // Sanitize the hostname and port
+    $hostname = sanitize_text_field($hostname);
+    $port = intval($port);
+
     // Generate the unique cache key for this server
     $serverDataKey = get_server_cache_key($hostname, $port, 'server_data_');
     $playerDataKey = get_server_cache_key($hostname, $port, 'player_data_');
@@ -143,8 +147,8 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port,$attrib
  */
 function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
 {
-    $avatarURL = "https://mc-heads.net/avatar/{$id}";
-    $playerName = $player['name'];
+    $avatarURL = esc_url("https://mc-heads.net/avatar/{$id}");
+    $playerName = esc_html($player['name']);
 
     // Ensure you have the current timestamp in the WordPress-configured timezone
     $current_time = new DateTime("now", $wpTimezone);
