@@ -3,7 +3,7 @@
 /**
  * Retrieves Minecraft server data and updates cached information.
  */
-function retrieveData($hostname, $attributes, $port = 25565, )
+function retrieveData($hostname, $attributes, $port = 25565)
 {
     // Sanitize the hostname and port
     $hostname = sanitize_text_field($hostname);
@@ -39,7 +39,7 @@ function retrieveData($hostname, $attributes, $port = 25565, )
         ];
     }
 
-    return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname, $port,$attributes);
+    return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname, $port, $attributes);
 
 }
 
@@ -84,12 +84,12 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
 
     $dynurl = '';
     $dynurl_domain = '';
-    if(isset($attributes['dynurl'])){
+    if(isset($attributes['dynurl'])) {
         $dynurl = esc_url($attributes['dynurl']);
         $parsedUrl = parse_url($dynurl);
-        $dynurl_domain = $parsedUrl['host']; 
+        $dynurl_domain = $parsedUrl['host'];
     }
-    
+
 
     $align_class = isset($attributes['align']) ? 'align' . $attributes['align'] : '';
 
@@ -130,7 +130,7 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
     $output .= "<tr><td><strong>" . __('Status', 'minecraft-server-info-block') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
     $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info-block') . "</strong></td><td>" . $hostname . " <button onclick='copyToClipboard(\"" . $hostname . "\")' style='cursor:pointer;'>" . __('Copy', 'minecraft-server-info-block') . "</button></td></tr>";
     $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
-    if($dynurl != '' ){
+    if($dynurl != '') {
         $output .= "<tr><td><strong>Dynmap</strong></td><td><a title='Dynmap' href='{$dynurl}'>{$dynurl_domain}</a></td></tr>";
     }
     $output .= "<tr><td><strong>" . __('Version', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
