@@ -75,9 +75,18 @@ function updatePlayerData($currentPlayers, $playerDataKey)
 /**
  * Renders the server data including player information.
  */
-function renderServerData($serverData, $currentPlayers, $hostname, $port,$attributes)
+function renderServerData($serverData, $currentPlayers, $hostname, $port, $attributes)
 {
     $wpTimezone = wp_timezone();
+
+    $dynurl = '';
+    $dynurl_domain = '';
+    if(isset($attributes['dynurl'])){
+        $dynurl = $attributes['dynurl'];
+        $parsedUrl = parse_url($dynurl);
+        $dynurl_domain = $parsedUrl['host']; 
+    }
+    
 
     $align_class = isset($attributes['align']) ? 'align' . $attributes['align'] : '';
 
@@ -118,6 +127,9 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port,$attrib
     $output .= "<tr><td><strong>" . __('Status', 'minecraft-server-info-block') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
     $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info-block') . "</strong></td><td>" . $hostname . "</td></tr>";
     $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
+    if($dynurl != '' ){
+        $output .= "<tr><td><strong>Dynmap</strong></td><td><a title='Dynmap' href='{$dynurl}'>{$dynurl_domain}</a></td></tr>";
+    }
     $output .= "<tr><td><strong>" . __('Version', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
 
     // Player table with dynamic online count and total players ever seen

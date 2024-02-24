@@ -51,6 +51,24 @@ export default function Edit( { attributes, setAttributes } ) {
 							}
 						/>
 					</PanelRow>
+					<PanelRow>
+						<TextControl
+							label={ __(
+								'Dynmap URL',
+								'minecraft-server-info-block'
+							) }
+							help={ __(
+								'The url of a Dynmap with http(s)',
+								'minecraft-server-info-block'
+							) }
+							value={ attributes.dynurl }
+							onChange={ ( value ) =>
+								setAttributes( {
+									dynurl: value,
+								} )
+							}
+						/>
+					</PanelRow>
 				</PanelBody>
 			</Panel>
 		</InspectorControls>

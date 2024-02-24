@@ -22,6 +22,9 @@
     "address": {
       "type": "string"
     },
+    "dynurl": {
+      "type": "string"
+    },
     "port": {
       "type": "integer",
       "default": 25565
