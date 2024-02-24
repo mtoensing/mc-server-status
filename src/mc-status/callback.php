@@ -82,7 +82,7 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
     $dynurl = '';
     $dynurl_domain = '';
     if(isset($attributes['dynurl'])){
-        $dynurl = $attributes['dynurl'];
+        $dynurl = esc_url($attributes['dynurl']);
         $parsedUrl = parse_url($dynurl);
         $dynurl_domain = $parsedUrl['host']; 
     }
