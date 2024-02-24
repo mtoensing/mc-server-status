@@ -77,6 +77,9 @@ function updatePlayerData($currentPlayers, $playerDataKey)
  */
 function renderServerData($serverData, $currentPlayers, $hostname, $port, $attributes)
 {
+
+    enqueue_msib_frontend();
+
     $wpTimezone = wp_timezone();
 
     $dynurl = '';
@@ -125,7 +128,7 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
     // Server metadata output
     $output = "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
     $output .= "<tr><td><strong>" . __('Status', 'minecraft-server-info-block') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
-    $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info-block') . "</strong></td><td>" . $hostname . "</td></tr>";
+    $output .= "<tr><td><strong>" . __('Address', 'minecraft-server-info-block') . "</strong></td><td>" . $hostname . " <button onclick='copyToClipboard(\"" . $hostname . "\")' style='cursor:pointer;'>" . __('Copy', 'minecraft-server-info-block') . "</button></td></tr>";
     $output .= "<tr><td><strong>" . __('MOTD', 'minecraft-server-info-block') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
     if($dynurl != '' ){
         $output .= "<tr><td><strong>Dynmap</strong></td><td><a title='Dynmap' href='{$dynurl}'>{$dynurl_domain}</a></td></tr>";
@@ -210,4 +213,15 @@ function get_server_cache_key($hostname, $port, $prefix = '')
     $sanitizedHostname = preg_replace('#^https?://#', '', rtrim($hostname, '/'));
     $cacheKey = $prefix . 'minecraft_data_' . md5($sanitizedHostname . '_' . $port);
     return $cacheKey;
+}
+
+function enqueue_msib_frontend()
+{
+    wp_enqueue_script(
+        'msib-script',
+        plugin_dir_url(__FILE__) . 'copy2clip.js',
+        array(),
+        '1.0.0',
+        true
+    );
 }
