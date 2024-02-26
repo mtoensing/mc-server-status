@@ -186,7 +186,7 @@ function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
     );
 
     // Modify the row class based on the online status
-    $rowClass = $isOnline ? "" : " class='text-muted'";
+    $rowClass = $isOnline ? " class='player'" : " class='player text-muted'";
 
     $row = "<tr{$rowClass}>";
     $row .= "<td><img src='{$avatarURL}' alt='{$playerName}s Avatar' width='18' height='18'> {$playerName} </td>";
