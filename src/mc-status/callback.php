@@ -39,6 +39,9 @@ function retrieveData($hostname, $attributes, $port = 25565)
         ];
     }
 
+    // Add 'IsOnline' status dynamically to the serverData array
+    $serverData['IsOnline'] = $isOnline;
+
     return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname, $port, $attributes);
 
 }
