@@ -85,7 +85,7 @@ class MinecraftPing
 	}
 
 	/** @return array|false */
-	public function Query( ) : array|bool
+	public function Query()
 	{
 		if( $this->Socket === null )
 		{
@@ -163,7 +163,7 @@ class MinecraftPing
 	}
 
 	/** @return array|false */
-	public function QueryOldPre17( ) : array|bool
+	public function QueryOldPre17()
 	{
 		if( $this->Socket === null )
 		{
