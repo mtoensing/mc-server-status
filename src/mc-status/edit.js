@@ -19,11 +19,11 @@ export default function Edit( { attributes, setAttributes } ) {
 						<TextControl
 							label={ __(
 								'Address',
-								'minecraft-server-info-block'
+								'mc-server-info-block'
 							) }
 							help={ __(
 								'The Minecraft Server address without https.',
-								'minecraft-server-info-block'
+								'mc-server-info-block'
 							) }
 							value={ attributes.address }
 							onChange={ ( value ) =>
@@ -37,11 +37,11 @@ export default function Edit( { attributes, setAttributes } ) {
 						<TextControl
 							label={ __(
 								'Port',
-								'minecraft-server-info-block'
+								'mc-server-info-block'
 							) }
 							help={ __(
 								'Port of the Minecraft Server',
-								'minecraft-server-info-block'
+								'mc-server-info-block'
 							) }
 							value={ attributes.port }
 							onChange={ ( value ) =>
@@ -55,11 +55,11 @@ export default function Edit( { attributes, setAttributes } ) {
 						<TextControl
 							label={ __(
 								'Dynmap URL',
-								'minecraft-server-info-block'
+								'mc-server-info-block'
 							) }
 							help={ __(
 								'The url of a Dynmap with http(s)',
-								'minecraft-server-info-block'
+								'mc-server-info-block'
 							) }
 							value={ attributes.dynurl }
 							onChange={ ( value ) =>
@@ -79,7 +79,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			{ controls }
 			{ controlssidebar }
 			<ServerSideRender
-				block="minecraft-server-info-block/mc-status"
+				block="mc-server-info-block/mc-status"
 				attributes={ attributes }
 			/>
 		</p>

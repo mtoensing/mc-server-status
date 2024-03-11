@@ -1,5 +1,5 @@
 {
-	"name": "minecraft-server-info-block",
+	"name": "mc-server-info-block",
 	"version": "1.0.0",
 	"description": "Display Minecraft Server Infos",
 	"author": "Marc Tönsing",
@@ -19,12 +19,13 @@
 		"lint-css": "wp-scripts lint-style",
 		"lint-css:fix": "wp-scripts lint-style --fix",
 		"wp-env": "wp-env",
+		"plugin-zip": "wp-scripts plugin-zip",
 		"wp-int": "npm install @wordpress/scripts --save-dev --save-exact @wordpress/scripts"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "27.2.0"
+		"@wordpress/scripts": "^27.4.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^9.42.0"
+		"@wordpress/icons": "^9.44.0"
 	}
 }
