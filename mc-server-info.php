@@ -103,7 +103,7 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
     $dynurl_domain = '';
     if(isset($attributes['dynurl'])) {
         $dynurl = esc_url($attributes['dynurl']);
-        $parsedUrl = parse_url($dynurl);
+        $parsedUrl = wp_parse_url($dynurl);
         $dynurl_domain = $parsedUrl['host'];
     }
 
