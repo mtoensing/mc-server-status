@@ -17,10 +17,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<PanelBody>
 					<PanelRow>
 						<TextControl
-							label={ __(
-								'Address',
-								'mc-server-info-block'
-							) }
+							label={ __( 'Address', 'mc-server-info-block' ) }
 							help={ __(
 								'The Minecraft Server address without https.',
 								'mc-server-info-block'
@@ -35,10 +32,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label={ __(
-								'Port',
-								'mc-server-info-block'
-							) }
+							label={ __( 'Port', 'mc-server-info-block' ) }
 							help={ __(
 								'Port of the Minecraft Server',
 								'mc-server-info-block'
@@ -53,10 +47,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label={ __(
-								'Dynmap URL',
-								'mc-server-info-block'
-							) }
+							label={ __( 'Dynmap URL', 'mc-server-info-block' ) }
 							help={ __(
 								'The url of a Dynmap with http(s)',
 								'mc-server-info-block'
