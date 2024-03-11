@@ -1,10 +1,11 @@
 {
-	"name": "mc-server-info-block",
+	"name": "mc-server-info",
 	"version": "1.0.0",
 	"description": "Display Minecraft Server Infos",
 	"author": "Marc Tönsing",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
+	"files": [ "inc", "build", "mc-server-info.php" ],
 	"scripts": {
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
