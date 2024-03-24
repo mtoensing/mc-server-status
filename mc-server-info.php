@@ -153,7 +153,7 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
     $output .= "<tr><td><strong>" . __('Version', 'mc-server-info') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
 
     // Player table with dynamic online count and total players ever seen
-    $output .= "<tr class='playerhead'><th><strong>" . __('Players', 'mc-server-info') . "</span><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th><th></strong> <span class='light'>" . __('last seen', 'mc-server-info') . "</th></tr>";
+    $output .= "<tr class='playerhead'><th><strong>" . __('Players', 'mc-server-info') . "</span><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th><th></strong> <span class='light'>" . __('Last seen', 'mc-server-info') . "</th></tr>";
 
     // List online players
     foreach ($onlinePlayers as $id => $player) {
