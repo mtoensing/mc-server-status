@@ -5,44 +5,48 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-mc-server-info {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
-}
-
-table.minecraftserverinfo .status {
-	color: d1242f;
-	font-weight: 700;
-	letter-spacing: 1px;
-}
 
 table.minecraftserverinfo {
 	width: 100%;
-}
 
-table.minecraftserverinfo.isonline .status {
-	color: #1b7f36;
-}
+	td,
+	th {
+		padding: 0.5em;
+	}
 
-table.minecraftserverinfo .playeronline {
-	color: #1b7f36;
-}
+	td:first-child,
+	th:first-child {
+		white-space: nowrap;
+	}
 
-table.minecraftserverinfo .text-muted {
-	color: #8895a0;
-	font-weight: 300;
-}
+	.text-muted img {
+		opacity: 0.25;
+	}
 
-table.minecraftserverinfo tr.playerhead {
-	text-align: left;
-}
+	.status {
+		color: d1242f;
+		font-weight: 700;
+		letter-spacing: 1px;
+	}
 
-.wp-block-table .minecraftserverinfo td,
-.wp-block-table .minecraftserverinfo th {
-	padding: 0.5em;
-}
+	&.isonline .status {
+		color: #1b7f36;
+	}
 
-.text-muted img {
-	opacity: 0.25;
+	.playeronline {
+		color: #1b7f36;
+	}
+
+	.text-muted {
+		color: #8895a0;
+		font-weight: 300;
+	}
+
+	tr.playerhead {
+		text-align: left;
+	}
+
+	.light {
+		font-weight: 300;
+	}
 }
