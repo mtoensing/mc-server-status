@@ -5,7 +5,11 @@
 	"author": "Marc Tönsing",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
-	"files": [ "inc", "build", "mc-server-info.php" ],
+	"files": [
+		"inc",
+		"build",
+		"mc-server-info.php"
+	],
 	"scripts": {
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
@@ -24,9 +28,9 @@
 		"wp-int": "npm install @wordpress/scripts --save-dev --save-exact @wordpress/scripts"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^27.4.0"
+		"@wordpress/scripts": "^27.5.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^9.44.0"
+		"@wordpress/icons": "^9.45.0"
 	}
 }
