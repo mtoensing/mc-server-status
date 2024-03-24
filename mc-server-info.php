@@ -236,7 +236,7 @@ function enqueue_msib_frontend()
 {
     wp_enqueue_script(
         'msib-script',
-        plugin_dir_url(__FILE__) . 'copy2clip.js',
+        plugin_dir_url(__FILE__) . 'inc/copy2clip.js',
         array(),
         '1.0.0',
         true
