@@ -19,15 +19,26 @@ export default function Edit( { attributes, setAttributes } ) {
 						<TextControl
 							label={ __( 'Address', 'mc-server-info' ) }
 							help={ __(
-								'The Minecraft Server address without https.',
+								'The Minecraft server address, excluding the protocol (e.g., "http" or "https").',
 								'mc-server-info'
 							) }
 							value={ attributes.address }
-							onChange={ ( value ) =>
+							onChange={ ( value ) => {
+								// Function to remove http:// or https:// from the start of the URL
+								const removeHttp = ( url ) => {
+									// Regular expression to match http:// or https:// at the start of the string
+									const regex = /^(http:\/\/|https:\/\/)/;
+									return url.replace( regex, '' ); // Replace with empty string if found
+								};
+
+								// Use the removeHttp function to preprocess the value
+								const processedValue = removeHttp( value );
+
+								// Save the processed value
 								setAttributes( {
-									address: value,
-								} )
-							}
+									address: processedValue,
+								} );
+							} }
 						/>
 					</PanelRow>
 					<PanelRow>
