@@ -17,15 +17,15 @@
 /**
  * Retrieves Minecraft server data and updates cached information.
  */
-function retrieveData($hostname, $attributes, $port = 25565)
+function mcsi_retrieveData($hostname, $attributes, $port = 25565)
 {
     // Sanitize the hostname and port
     $hostname = sanitize_text_field($hostname);
     $port = intval($port);
 
     // Generate the unique cache key for this server
-    $serverDataKey = get_server_cache_key($hostname, $port, 'server_data_');
-    $playerDataKey = get_server_cache_key($hostname, $port, 'player_data_');
+    $serverDataKey = mcsi_get_server_cache_key($hostname, $port, 'server_data_');
+    $playerDataKey = mcsi_get_server_cache_key($hostname, $port, 'player_data_');
 
     $data = new MSI\MinecraftData($hostname, $port);
     $isOnline = $data->IsOnline ?? false;
@@ -41,7 +41,7 @@ function retrieveData($hostname, $attributes, $port = 25565)
             'timestamp' => time()
         ];
         update_option($serverDataKey, serialize($serverData));
-        updatePlayerData($data->Players ?? [], $playerDataKey);
+        mcsi_updatePlayerData($data->Players ?? [], $playerDataKey);
     } else {
         // Retrieve cached server data if available
         $serverData = unserialize(get_option($serverDataKey, '')) ?: [
@@ -56,14 +56,14 @@ function retrieveData($hostname, $attributes, $port = 25565)
     // Add 'IsOnline' status dynamically to the serverData array
     $serverData['IsOnline'] = $isOnline;
 
-    return renderServerData($serverData, $isOnline ? $data->Players : [], $hostname, $port, $attributes);
+    return mcsi_renderServerData($serverData, $isOnline ? $data->Players : [], $hostname, $port, $attributes);
 
 }
 
 /**
  * Updates or initializes the player data including their last seen time.
  */
-function updatePlayerData($currentPlayers, $playerDataKey)
+function mcsi_updatePlayerData($currentPlayers, $playerDataKey)
 {
     $savedPlayers = get_option($playerDataKey, []);
     if (!is_array($savedPlayers)) {
@@ -92,7 +92,7 @@ function updatePlayerData($currentPlayers, $playerDataKey)
 /**
  * Renders the server data including player information.
  */
-function renderServerData($serverData, $currentPlayers, $hostname, $port, $attributes)
+function mcsi_renderServerData($serverData, $currentPlayers, $hostname, $port, $attributes)
 {
 
     enqueue_msib_frontend();
@@ -111,7 +111,7 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
     $align_class = isset($attributes['align']) ? 'align' . $attributes['align'] : '';
 
     // Generate the unique cache key for player data of this server
-    $playerDataKey = get_server_cache_key($hostname, $port, 'player_data_');
+    $playerDataKey = mcsi_get_server_cache_key($hostname, $port, 'player_data_');
 
     // Use the unique key to retrieve player data for the current server
     $savedPlayers = get_option($playerDataKey, []);
@@ -161,11 +161,11 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
 
         // List online players
         foreach ($onlinePlayers as $id => $player) {
-            $output .= formatPlayerRow($id, $player, true, $wpTimezone);
+            $output .= mcsi_formatPlayerRow($id, $player, true, $wpTimezone);
         }
         // List offline players (sorted by last seen)
         foreach ($offlinePlayers as $id => $player) {
-            $output .= formatPlayerRow($id, $player, false, $wpTimezone);
+            $output .= mcsi_formatPlayerRow($id, $player, false, $wpTimezone);
         }
 
         $output .= "</table></figure>";
@@ -182,7 +182,7 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
 /**
  * Helper function to format a player row.
  */
-function formatPlayerRow($id, $player, $isOnline, $wpTimezone)
+function mcsi_formatPlayerRow($id, $player, $isOnline, $wpTimezone)
 {
     // Sanitize the ID since it's used in the URL
     $id = sanitize_key($id); // Assuming $id is a string/alphanumeric key
@@ -226,11 +226,11 @@ function mcsi_render_status($attributes)
 {
     $address = $attributes['address'] ?? '';
     $port = $attributes['port'] ?? '25565';
-    $html = retrieveData($address, $attributes, $port);
+    $html = mcsi_retrieveData($address, $attributes, $port);
     return $html;
 }
 
-function get_server_cache_key($hostname, $port, $prefix = '')
+function mcsi_get_server_cache_key($hostname, $port, $prefix = '')
 {
     $sanitizedHostname = preg_replace('#^https?://#', '', rtrim($hostname, '/'));
     $cacheKey = $prefix . 'minecraft_data_' . md5($sanitizedHostname . '_' . $port);

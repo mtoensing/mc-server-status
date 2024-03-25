@@ -1,7 +1,7 @@
 === MC Server Info ===
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
-Tested up to:      6.1
+Tested up to:      6.4
 Stable tag:        1.0.0
 Requires PHP:      8.0
 License:           GPL-2.0-or-later
