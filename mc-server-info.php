@@ -152,19 +152,24 @@ function renderServerData($serverData, $currentPlayers, $hostname, $port, $attri
     }
     $output .= "<tr><td><strong>" . __('Version', 'mc-server-info') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
 
-    // Player table with dynamic online count and total players ever seen
-    $output .= "<tr class='playerhead'><th><strong>" . __('Players', 'mc-server-info') . "</span><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th><th></strong> <span class='light'>" . __('Last seen', 'mc-server-info') . "</th></tr>";
-
-    // List online players
-    foreach ($onlinePlayers as $id => $player) {
-        $output .= formatPlayerRow($id, $player, true, $wpTimezone);
-    }
-    // List offline players (sorted by last seen)
-    foreach ($offlinePlayers as $id => $player) {
-        $output .= formatPlayerRow($id, $player, false, $wpTimezone);
-    }
-
     $output .= "</table></figure>";
+
+    if(count($offlinePlayers) > 0) {
+        $output .= "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
+        // Player table with dynamic online count and total players ever seen
+        $output .= "<tr class='playerhead'><th><strong>" . __('Players', 'mc-server-info') . "</span><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th><th>" . __('last seen', 'mc-server-info') . "</th></tr>";
+
+        // List online players
+        foreach ($onlinePlayers as $id => $player) {
+            $output .= formatPlayerRow($id, $player, true, $wpTimezone);
+        }
+        // List offline players (sorted by last seen)
+        foreach ($offlinePlayers as $id => $player) {
+            $output .= formatPlayerRow($id, $player, false, $wpTimezone);
+        }
+
+        $output .= "</table></figure>";
+    }
 
     return $output;
 }
