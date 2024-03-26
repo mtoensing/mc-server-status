@@ -1,6 +1,7 @@
 <?php
+namespace MCSI;
 
-namespace MSI;
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 require __DIR__ . '/MinecraftPing.php';
 require __DIR__ . '/MinecraftPingException.php';

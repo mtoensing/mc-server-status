@@ -2,6 +2,8 @@
 
 namespace xPaw;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class MinecraftPing
 {
 	/*

@@ -2,7 +2,7 @@
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
 Tested up to:      6.4
-Stable tag:        1.0.0
+Stable tag:        1.1.0
 Requires PHP:      8.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -32,6 +32,11 @@ Utilizes the robust PHP-Minecraft-Query library for retrieving server informatio
 1. The Minecraft Server Block.
 
 == Changelog ==
+
+= 1.1.0 = 
+* Added prefix to generic function names.
+* Tested up to WordPress 6.4.
+* Added fix to prevent Direct File Access to plugin files.
 
 = 1.0.0 =
 * Initial Release

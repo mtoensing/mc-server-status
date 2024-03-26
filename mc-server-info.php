@@ -12,7 +12,10 @@
  *
  * @package           mc-server-info
  */
- require __DIR__ . '/inc/MinecraftData.php';
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+require __DIR__ . '/inc/MinecraftData.php';
 
 /**
  * Retrieves Minecraft server data and updates cached information.
@@ -27,7 +30,7 @@ function mcsi_retrieveData($hostname, $attributes, $port = 25565)
     $serverDataKey = mcsi_get_server_cache_key($hostname, $port, 'server_data_');
     $playerDataKey = mcsi_get_server_cache_key($hostname, $port, 'player_data_');
 
-    $data = new MSI\MinecraftData($hostname, $port);
+    $data = new MCSI\MinecraftData($hostname, $port);
     $isOnline = $data->IsOnline ?? false;
 
     if ($isOnline) {
