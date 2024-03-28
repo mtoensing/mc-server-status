@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       MC Server Info
+ * Plugin Name:       MC Server Status
  * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
@@ -8,9 +8,9 @@
  * Author:            Marc Tönsing
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       mc-server-info
+ * Text Domain:       mc-server-status
  *
- * @package           mc-server-info
+ * @package           mc-server-status
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -147,20 +147,20 @@ function mcsi_renderServerData($serverData, $currentPlayers, $hostname, $port, $
 
     // Server metadata output
     $output = "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
-    $output .= "<tr><td><strong>" . __('Status', 'mc-server-info') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
-    $output .= "<tr><td><strong>" . __('Address', 'mc-server-info') . "</strong></td><td>" . $hostname . " <button onclick='copyToClipboard(\"" . $hostname . "\")' style='cursor:pointer;'>" . __('Copy', 'mc-server-info') . "</button></td></tr>";
-    $output .= "<tr><td><strong>" . __('MOTD', 'mc-server-info') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
+    $output .= "<tr><td><strong>" . __('Status', 'mc-server-status') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
+    $output .= "<tr><td><strong>" . __('Address', 'mc-server-status') . "</strong></td><td>" . $hostname . " <button onclick='copyToClipboard(\"" . $hostname . "\")' style='cursor:pointer;'>" . __('Copy', 'mc-server-status') . "</button></td></tr>";
+    $output .= "<tr><td><strong>" . __('MOTD', 'mc-server-status') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
     if($dynurl != '') {
         $output .= "<tr><td><strong>Dynmap</strong></td><td><a title='Dynmap' href='{$dynurl}'>{$dynurl_domain}</a></td></tr>";
     }
-    $output .= "<tr><td><strong>" . __('Version', 'mc-server-info') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
+    $output .= "<tr><td><strong>" . __('Version', 'mc-server-status') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
 
     $output .= "</table></figure>";
 
     if(count($offlinePlayers) > 0) {
         $output .= "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
         // Player table with dynamic online count and total players ever seen
-        $output .= "<tr class='playerhead'><th><strong>" . __('Players', 'mc-server-info') . "</span><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th><th>" . __('last seen', 'mc-server-info') . "</th></tr>";
+        $output .= "<tr class='playerhead'><th><strong>" . __('Players', 'mc-server-status') . "</span><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th><th>" . __('last seen', 'mc-server-status') . "</th></tr>";
 
         // List online players
         foreach ($onlinePlayers as $id => $player) {
@@ -206,7 +206,7 @@ function mcsi_formatPlayerRow($id, $player, $isOnline, $wpTimezone)
     // Prepare the display format
     $lastSeenFormat = $isOnline ? "<span class='playeronline'>Online</span>" : sprintf(
         /* translators: %s: human-readable time difference */
-        __('%s ago', 'mc-server-info'),
+        __('%s ago', 'mc-server-status'),
         $last_seen_diff
     );
 

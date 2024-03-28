@@ -1,17 +1,17 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "mc-server-info/mc-status",
+	"name": "mc-server-status/mc-status",
 	"version": "0.1.1",
-	"title": "Minecraft Server Info",
+	"title": "Minecraft Server Status",
 	"category": "widgets",
 	"icon": "editor-table",
-	"description": "Example block scaffolded with Create Block tool.",
+	"description": "Show information about a Minecraft Server in a block.",
 	"example": {},
 	"supports": {
 		"align": [ "wide", "full" ]
 	},
-	"textdomain": "mc-server-info",
+	"textdomain": "mc-server-status",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

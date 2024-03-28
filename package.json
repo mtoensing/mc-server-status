@@ -1,5 +1,5 @@
 {
-	"name": "mc-server-info",
+	"name": "mc-server-status",
 	"version": "1.0.0",
 	"description": "Display Minecraft Server Infos",
 	"author": "Marc Tönsing",
@@ -8,7 +8,7 @@
 	"files": [
 		"inc",
 		"build",
-		"mc-server-info.php"
+		"mc-server-status.php"
 	],
 	"scripts": {
 		"format": "wp-scripts format",
@@ -28,7 +28,7 @@
 		"wp-int": "npm install @wordpress/scripts --save-dev --save-exact @wordpress/scripts"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^27.5.0"
+		"@wordpress/scripts": "27.5.0"
 	},
 	"dependencies": {
 		"@wordpress/icons": "^9.45.0"

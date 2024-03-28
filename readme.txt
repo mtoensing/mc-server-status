@@ -1,4 +1,4 @@
-=== MC Server Info ===
+=== MC Server Status ===
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
 Tested up to:      6.4
@@ -24,7 +24,7 @@ Utilizes the robust PHP-Minecraft-Query library for retrieving server informatio
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/mc-server-info` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/mc-server-status` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Screenshots ==

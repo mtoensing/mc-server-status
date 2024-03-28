@@ -17,10 +17,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				<PanelBody>
 					<PanelRow>
 						<TextControl
-							label={ __( 'Address', 'mc-server-info' ) }
+							label={ __( 'Address', 'mc-server-status' ) }
 							help={ __(
 								'The Minecraft server address, excluding the protocol (e.g., "http" or "https").',
-								'mc-server-info'
+								'mc-server-status'
 							) }
 							value={ attributes.address }
 							onChange={ ( value ) => {
@@ -43,10 +43,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label={ __( 'Port', 'mc-server-info' ) }
+							label={ __( 'Port', 'mc-server-status' ) }
 							help={ __(
 								'Port of the Minecraft Server',
-								'mc-server-info'
+								'mc-server-status'
 							) }
 							value={ attributes.port }
 							onChange={ ( value ) =>
@@ -58,10 +58,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label={ __( 'Dynmap URL', 'mc-server-info' ) }
+							label={ __( 'Dynmap URL', 'mc-server-status' ) }
 							help={ __(
 								'The url of a Dynmap with http(s)',
-								'mc-server-info'
+								'mc-server-status'
 							) }
 							value={ attributes.dynurl }
 							onChange={ ( value ) =>
@@ -81,7 +81,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			{ controls }
 			{ controlssidebar }
 			<ServerSideRender
-				block="mc-server-info/mc-status"
+				block="mc-server-status/mc-status"
 				attributes={ attributes }
 			/>
 		</p>
