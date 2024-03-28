@@ -6,7 +6,7 @@
 	"title": "Minecraft Server Status",
 	"category": "widgets",
 	"icon": "editor-table",
-	"description": "Show information about a Minecraft Server in a block.",
+	"description": "Shows information about a Minecraft Server in a block.",
 	"example": {},
 	"supports": {
 		"align": [ "wide", "full" ]
