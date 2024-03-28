@@ -13,12 +13,13 @@ Displays the Minecraft server status along with the active players.
 
 This plugin provides a dynamic display of your Minecraft server's status, including current active players. Simply input your server's address and port to get started.
 
-Key Features:
+= Key Features =
 
-Real-time Server Status: Instantly view whether your Minecraft server is online or offline.
-Active Player Display: See a list of currently active players on your server.
+- Real-time Server Status: Instantly view whether your Minecraft server is online or offline.
+- Active Player Display: See a list of currently active players on your server.
+- Supports only Java Minecraft. Bedrock may be supported on popular demand.
 
-Technology:
+= Technology =
 
 Utilizes the robust PHP-Minecraft-Query library for retrieving server information. More details can be found on [Packagist](https://packagist.org/packages/xpaw/php-minecraft-query).
 
