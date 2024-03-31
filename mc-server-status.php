@@ -160,7 +160,7 @@ function mcsi_renderServerData($serverData, $currentPlayers, $hostname, $port, $
     if(count($offlinePlayers) > 0) {
         $output .= "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
         // Player table with dynamic online count and total players ever seen
-        $output .= "<tr class='playerhead'><th><strong>" . __('Players', 'mc-server-status') . "</span><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th><th>" . __('last seen', 'mc-server-status') . "</th></tr>";
+        $output .= "<tr class='playerhead'><th><strong>" . __('Players', 'mc-server-status') . "</span><span class='text-muted'> ($currentOnlineCount/$totalPlayersEverSeen)</span></th><th>" . __('Last seen', 'mc-server-status') . "</th></tr>";
 
         // List online players
         foreach ($onlinePlayers as $id => $player) {
