@@ -250,14 +250,14 @@ function enqueue_msib_frontend()
         'msib-script',
         plugin_dir_url(__FILE__) . 'inc/copy2clip.js',
         array(),
-        '1.0.0',
+        '1.3.0',
         true
     );
 
     wp_enqueue_script(
         'fullscreen-script',
          plugin_dir_url(__FILE__) . 'inc/iframe_fullscreen.js', 
-         array(), '1.0.1',
+         array(), '1.3.0',
           true
     );
 
