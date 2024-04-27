@@ -1,8 +1,8 @@
 === MC Server Status ===
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
-Tested up to:      6.4
-Stable tag:        1.1.4
+Tested up to:      6.5
+Stable tag:        1.3.0
 Requires PHP:      8.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -33,6 +33,9 @@ Utilizes the robust PHP-Minecraft-Query library for retrieving server informatio
 1. The Minecraft Server Block.
 
 == Changelog ==
+
+= 1.3.0 = 
+* Better Dynmap and styling.
 
 = 1.1.0 = 
 * Added prefix to generic function names.

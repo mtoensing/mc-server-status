@@ -4,7 +4,7 @@
  * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           1.1.4
+ * Version:           1.3.0
  * Author:            Marc Tönsing
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,9 @@
  * @package           mc-server-status
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if (! defined('ABSPATH')) {
+    exit;
+} // Exit if accessed directly
 
 require __DIR__ . '/inc/MinecraftData.php';
 
@@ -148,13 +150,15 @@ function mcsi_renderServerData($serverData, $currentPlayers, $hostname, $port, $
     // Server metadata output
     $output = "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
     $output .= "<tr><td><strong>" . __('Status', 'mc-server-status') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
-    $output .= "<tr><td><strong>" . __('Address', 'mc-server-status') . "</strong></td><td>" . $hostname . " <button onclick='copyToClipboard(\"" . $hostname . "\")' style='cursor:pointer;'>" . __('Copy', 'mc-server-status') . "</button></td></tr>";
+    $output .= "<tr><td><strong>" . __('Address', 'mc-server-status') . "</strong></td><td>" . $hostname . " <small><a style='cursor: pointer' onclick='copyToClipboard(\"" . $hostname . "\")' >" . __('Copy', 'mc-server-status') . "</a></small></td></tr>";
     $output .= "<tr><td><strong>" . __('MOTD', 'mc-server-status') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
-    if($dynurl != '') {
-        $output .= "<tr><td><strong>Dynmap</strong></td><td><a title='Dynmap' href='{$dynurl}'>{$dynurl_domain}</a></td></tr>";
-    }
     $output .= "<tr><td><strong>" . __('Version', 'mc-server-status') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
 
+    if ($dynurl != '') {
+        $output .= "<tr><td colspan='2'><iframe height='250' width='100%' src='{$dynurl}' id='dynmap'></iframe>";        
+        $output .= "<p><div class='wp-block-button has-custom-font-size has-small-font-size'><a onclick='handleFullscreen(\"dynmap\");' class='wp-block-button__link wp-element-button'>" . __('Show map in fullscreen', 'mc-server-status') . "</a></div></p>";
+    }
+    
     $output .= "</table></figure>";
 
     if(count($offlinePlayers) > 0) {
@@ -249,6 +253,14 @@ function enqueue_msib_frontend()
         '1.0.0',
         true
     );
+
+    wp_enqueue_script(
+        'fullscreen-script',
+         plugin_dir_url(__FILE__) . 'inc/iframe_fullscreen.js', 
+         array(), '1.0.1',
+          true
+    );
+
 }
 
 
@@ -278,4 +290,3 @@ function minecraft_server_info_init()
 
 }
 add_action('init', 'minecraft_server_info_init');
-
