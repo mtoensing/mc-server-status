@@ -28,7 +28,7 @@
 		"wp-int": "npm install @wordpress/scripts --save-dev --save-exact @wordpress/scripts"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^30.7.0"
+		"@wordpress/scripts": "30.7.0"
 	},
 	"dependencies": {
 		"@wordpress/icons": "^10.14.0"
