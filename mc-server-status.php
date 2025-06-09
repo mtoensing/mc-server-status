@@ -1,11 +1,13 @@
 <?php
 /**
  * Plugin Name:       MC Server Status
+ * Plugin URI:        https://toensing.com
  * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           1.4.0
+ * Version:           1.5.0
  * Author:            Marc Tönsing
+ * Author URI: 		  https://toensing.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       mc-server-status
