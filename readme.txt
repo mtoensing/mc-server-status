@@ -2,7 +2,7 @@
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
 Tested up to:      6.8
-Stable tag:        1.5.0
+Stable tag:        1.5.1
 Requires PHP:      8.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,7 +35,8 @@ Utilizes the robust PHP-Minecraft-Query library for retrieving server informatio
 
 == Changelog ==
 
-= 1.5.0 = 
+= 1.5.1 = 
+* Dependencies updated. 
 * Tested compatibility with WordPress 6.8
 
 = 1.3.0 = 
