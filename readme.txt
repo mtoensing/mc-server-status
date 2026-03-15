@@ -1,8 +1,8 @@
 === MC Server Status ===
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
-Tested up to:      6.8
-Stable tag:        1.5.1
+Tested up to:      6.9
+Stable tag:        1.5.2
 Requires PHP:      8.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,6 +34,13 @@ Utilizes the robust PHP-Minecraft-Query library for retrieving server informatio
 1. The Minecraft Server Block.
 
 == Changelog ==
+
+= 1.5.2 =
+* Added offline failure message from server ping when server cannot be reached.
+* Bugfix: Added safe null/array handling to avoid PHP warnings for malformed responses.
+* Block now shows offline status with error text when ping fails.
+* Dependencies updated.
+* Tested compatibility with WordPress 6.9
 
 = 1.5.1 = 
 * Dependencies updated. 

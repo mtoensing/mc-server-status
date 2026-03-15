@@ -1,6 +1,6 @@
 {
 	"name": "mc-server-status",
-	"version": "1.5.1",
+	"version": "1.5.2",
 	"description": "Display Minecraft Server Infos",
 	"author": "Marc Tönsing",
 	"license": "GPL-2.0-or-later",
@@ -28,9 +28,9 @@
 		"wp-int": "npm install @wordpress/scripts --save-dev --save-exact @wordpress/scripts"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^31.2.0"
+		"@wordpress/scripts": "^31.6.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^11.4.0"
+		"@wordpress/icons": "^11.8.0"
 	}
 }

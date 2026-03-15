@@ -26,30 +26,46 @@ class MinecraftData
             $Query = new MinecraftPing($Hostname, $Port);
 
             $data = $Query->Query();
-            $this->PlayersOnline = (int) $data['players']['online'];
-            $this->PlayersMax = (int) $data['players']['max'];
-            $this->ServerVersion = (string) $data['version']['name'];
-            $this->ServerVersion = (string) $data['version']['name'];
-
-            // Check if description is an array and handle it
-            if (is_array($data['description'])) {
-                // This is a simplified example. Adjust based on the actual array structure
-                $this->Motd = isset($data['description']['text']) ? (string) $data['description']['text'] : 'N/A';
-            } else {
-                $this->Motd = (string) $data['description'];
+            if (!is_array($data)) {
+                throw new MinecraftPingException('Query returned unexpected data type.');
             }
 
-            // Extract players
-            if (isset($data['players']['sample']) && is_array($data['players']['sample'])) {
-                foreach ($data['players']['sample'] as $player) {
+            $players = $data['players'] ?? [];
+            if (!is_array($players)) {
+                $players = [];
+            }
+
+            $version = $data['version'] ?? [];
+            if (!is_array($version)) {
+                $version = [];
+            }
+
+            $this->PlayersOnline = isset($players['online']) ? (int) $players['online'] : 0;
+            $this->PlayersMax = isset($players['max']) ? (int) $players['max'] : 0;
+            $this->ServerVersion = isset($version['name']) ? (string) $version['name'] : '';
+
+            $description = $data['description'] ?? '';
+            if (is_array($description)) {
+                $this->Motd = isset($description['text']) ? (string) $description['text'] : 'N/A';
+            } else {
+                $this->Motd = (string) $description;
+            }
+
+            // Extract players sample list
+            if (isset($players['sample']) && is_array($players['sample'])) {
+                foreach ($players['sample'] as $player) {
+                    if (!is_array($player)) {
+                        continue;
+                    }
+
                     $this->Players[] = [
-                        'id' => $player['id'],
-                        'name' => $player['name']
+                        'id' => isset($player['id']) ? (string) $player['id'] : '',
+                        'name' => isset($player['name']) ? (string) $player['name'] : '',
                     ];
                 }
             }
 
-            $this->IsOnline = true; // Server is online
+            $this->IsOnline = true;
         } catch (MinecraftPingException $e) {
             // Handle exception, for example, log it or just set the server as offline
             // You might want to log $e->getMessage() for debugging

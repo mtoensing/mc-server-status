@@ -5,7 +5,7 @@
  * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           1.5.1
+ * Version:           1.5.2
  * Author:            Marc Tönsing
  * Author URI: 		  https://toensing.com
  * License:           GPL-2.0-or-later
@@ -34,8 +34,15 @@ function mcsi_retrieveData($hostname, $attributes, $port = 25565)
     $serverDataKey = mcsi_get_server_cache_key($hostname, $port, 'server_data_');
     $playerDataKey = mcsi_get_server_cache_key($hostname, $port, 'player_data_');
 
-    $data = new MCSI\MinecraftData($hostname, $port);
-    $isOnline = $data->IsOnline ?? false;
+    $errorMessage = '';
+    try {
+        $data = new MCSI\MinecraftData($hostname, $port);
+        $isOnline = $data->IsOnline ?? false;
+    } catch (\Throwable $e) {
+        $isOnline = false;
+        $errorMessage = $e->getMessage();
+        $data = null;
+    }
 
     if ($isOnline) {
         // Update and cache server and player data using the salted keys
@@ -45,7 +52,8 @@ function mcsi_retrieveData($hostname, $attributes, $port = 25565)
             'ServerVersion' => $data->ServerVersion ?? 'N/A',
             'PlayersMax' => $data->PlayersMax ?? 0,
             'PlayersOnline' => $data->PlayersOnline ?? 0,
-            'timestamp' => time()
+            'timestamp' => time(),
+            'ErrorMessage' => ''
         ];
         update_option($serverDataKey, serialize($serverData));
         mcsi_updatePlayerData($data->Players ?? [], $playerDataKey);
@@ -57,7 +65,12 @@ function mcsi_retrieveData($hostname, $attributes, $port = 25565)
             'ServerVersion' => 'N/A',
             'PlayersMax' => 0,
             'PlayersOnline' => 0,
+            'timestamp' => time(),
+            'ErrorMessage' => ''
         ];
+        if ($errorMessage) {
+            $serverData['ErrorMessage'] = $errorMessage;
+        }
     }
 
     // Add 'IsOnline' status dynamically to the serverData array
@@ -152,6 +165,9 @@ function mcsi_renderServerData($serverData, $currentPlayers, $hostname, $port, $
     // Server metadata output
     $output = "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
     $output .= "<tr><td><strong>" . __('Status', 'mc-server-status') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
+    if (!$serverData['IsOnline'] && !empty($serverData['ErrorMessage'])) {
+        $output .= "<tr><td><strong>" . __('Error', 'mc-server-status') . "</strong></td><td>" . esc_html($serverData['ErrorMessage']) . "</td></tr>";
+    }
     $output .= "<tr><td><strong>" . __('Address', 'mc-server-status') . "</strong></td><td>" . $hostname . " <small><a style='cursor: pointer' onclick='copyToClipboard(\"" . $hostname . "\")' >" . __('Copy', 'mc-server-status') . "</a></small></td></tr>";
     $output .= "<tr><td><strong>" . __('MOTD', 'mc-server-status') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
     $output .= "<tr><td><strong>" . __('Version', 'mc-server-status') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";

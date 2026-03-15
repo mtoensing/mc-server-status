@@ -74,10 +74,7 @@ class MinecraftPing
 
 		if( $Socket === false )
 		{
-			if( $Socket === false ) {
-				throw new MinecraftPingException( 'Failed to connect or create a socket: ' . esc_html( $errno ) . ' ' . esc_html( $errstr ) );
-			}
-			
+			throw new MinecraftPingException( sprintf( 'Failed to connect to %s:%d - errno %d: %s', $this->ServerAddress, $this->ServerPort, $errno, $errstr ) );
 		}
 
 		$this->Socket = $Socket;
@@ -106,7 +103,10 @@ class MinecraftPing
 
 		$Data = \pack( 'c', \strlen( $Data ) ) . $Data; // prepend length of packet ID + data
 
-		fwrite( $this->Socket, $Data . "\x01\x00" ); // handshake followed by status ping
+		$written = \fwrite( $this->Socket, $Data . "\x01\x00" ); // handshake followed by status ping
+		if( $written === false || $written === 0 ) {
+			throw new MinecraftPingException( 'Failed to write ping packet to server.' );
+		}
 
 		$Length = $this->ReadVarInt( ); // full packet length
 
@@ -153,12 +153,12 @@ class MinecraftPing
 
 		if( \json_last_error( ) !== JSON_ERROR_NONE )
 		{
-			throw new MinecraftPingException( 'JSON parsing failed: ' . esc_js(\json_last_error_msg( )) );
+			throw new MinecraftPingException( 'JSON parsing failed: ' . \json_last_error_msg( ) );
 		}
 
 		if( !\is_array( $Data ) )
 		{
-			return false;
+			throw new MinecraftPingException( 'Unexpected response format: expected array.' );
 		}
 
 		return $Data;
