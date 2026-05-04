@@ -5,7 +5,7 @@
  * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           1.5.2
+ * Version:           1.5.3
  * Author:            Marc Tönsing
  * Author URI: 		  https://toensing.com
  * License:           GPL-2.0-or-later
@@ -121,10 +121,10 @@ function mcsi_renderServerData($serverData, $currentPlayers, $hostname, $port, $
 
     $dynurl = '';
     $dynurl_domain = '';
-    if(isset($attributes['dynurl'])) {
+    if (isset($attributes['dynurl'])) {
         $dynurl = esc_url($attributes['dynurl']);
         $parsedUrl = wp_parse_url($dynurl);
-        $dynurl_domain = $parsedUrl['host'];
+        $dynurl_domain = is_array($parsedUrl) && isset($parsedUrl['host']) ? $parsedUrl['host'] : '';
     }
 
 

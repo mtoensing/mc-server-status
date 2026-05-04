@@ -2,7 +2,7 @@
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
 Tested up to:      6.9
-Stable tag:        1.5.2
+Stable tag:        1.5.3
 Requires PHP:      8.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,9 @@ Utilizes the robust PHP-Minecraft-Query library for retrieving server informatio
 
 == Changelog ==
 
+= 1.5.3 =
+* Bugfix: Avoid PHP warnings when the Dynmap URL does not contain a host.
+
 = 1.5.2 =
 * Added offline failure message from server ping when server cannot be reached.
 * Bugfix: Added safe null/array handling to avoid PHP warnings for malformed responses.
@@ -56,4 +59,3 @@ Utilizes the robust PHP-Minecraft-Query library for retrieving server informatio
 
 = 1.0.0 =
 * Initial Release
-
