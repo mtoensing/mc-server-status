@@ -1,6 +1,5 @@
 /* eslint-disable no-alert, no-unused-vars, no-undef */
 function handleFullscreen( id ) {
-	const userAgent = window.navigator.userAgent;
 	if ( supportsFullscreenAPI() ) {
 		// Use the Fullscreen API if supported
 		goFullscreen( id );
@@ -9,6 +8,21 @@ function handleFullscreen( id ) {
 		window.open( document.getElementById( id ).src, '_blank' );
 	}
 }
+
+document.addEventListener( 'DOMContentLoaded', function () {
+	document.addEventListener( 'click', function ( event ) {
+		if ( ! event.target.classList.contains( 'mcsi-fullscreen-toggle' ) ) {
+			return;
+		}
+
+		event.preventDefault();
+
+		const target = event.target.getAttribute( 'data-target' );
+		if ( target ) {
+			handleFullscreen( target );
+		}
+	} );
+} );
 
 function goFullscreen( id ) {
 	const element = document.getElementById( id );

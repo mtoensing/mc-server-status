@@ -4,8 +4,17 @@ import {
 	BlockControls,
 	useBlockProps,
 	InspectorControls,
+	MediaUpload,
+	MediaUploadCheck,
 } from '@wordpress/block-editor';
-import { TextControl, Panel, PanelBody, PanelRow } from '@wordpress/components';
+import {
+	Button,
+	Panel,
+	PanelBody,
+	PanelRow,
+	TextareaControl,
+	TextControl,
+} from '@wordpress/components';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
@@ -14,7 +23,22 @@ export default function Edit( { attributes, setAttributes } ) {
 	const controlssidebar = (
 		<InspectorControls>
 			<Panel>
-				<PanelBody>
+				<PanelBody title={ __( 'Basic Settings', 'mc-server-status' ) }>
+					<PanelRow>
+						<TextControl
+							label={ __( 'Server Name', 'mc-server-status' ) }
+							help={ __(
+								'Custom display name for the server.',
+								'mc-server-status'
+							) }
+							value={ attributes.serverName }
+							onChange={ ( value ) =>
+								setAttributes( {
+									serverName: value,
+								} )
+							}
+						/>
+					</PanelRow>
 					<PanelRow>
 						<TextControl
 							label={ __( 'Address', 'mc-server-status' ) }
@@ -52,6 +76,122 @@ export default function Edit( { attributes, setAttributes } ) {
 							onChange={ ( value ) =>
 								setAttributes( {
 									port: value,
+								} )
+							}
+						/>
+					</PanelRow>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Server Details', 'mc-server-status' ) }
+					initialOpen={ false }
+				>
+					<PanelRow>
+						<TextareaControl
+							label={ __( 'Description', 'mc-server-status' ) }
+							help={ __(
+								'Optional description shown in the server table.',
+								'mc-server-status'
+							) }
+							value={ attributes.serverDescription }
+							onChange={ ( value ) =>
+								setAttributes( {
+									serverDescription: value,
+								} )
+							}
+							rows={ 4 }
+						/>
+					</PanelRow>
+					<PanelRow>
+						<div style={ { width: '100%' } }>
+							<MediaUploadCheck>
+								<MediaUpload
+									onSelect={ ( media ) =>
+										setAttributes( {
+											serverIcon: media.url,
+										} )
+									}
+									allowedTypes={ [ 'image' ] }
+									value={ attributes.serverIcon }
+									render={ ( { open } ) => (
+										<div>
+											<Button
+												onClick={ open }
+												variant="secondary"
+											>
+												{ attributes.serverIcon
+													? __(
+															'Change Server Icon',
+															'mc-server-status'
+													  )
+													: __(
+															'Upload Server Icon',
+															'mc-server-status'
+													  ) }
+											</Button>
+											{ attributes.serverIcon && (
+												<div
+													style={ {
+														marginTop: '10px',
+													} }
+												>
+													<img
+														src={
+															attributes.serverIcon
+														}
+														alt={ __(
+															'Server Icon',
+															'mc-server-status'
+														) }
+														style={ {
+															display: 'block',
+															height: 'auto',
+															maxWidth: '64px',
+														} }
+													/>
+													<Button
+														onClick={ () =>
+															setAttributes( {
+																serverIcon: '',
+															} )
+														}
+														variant="link"
+														isDestructive
+														style={ {
+															marginTop: '5px',
+														} }
+													>
+														{ __(
+															'Remove',
+															'mc-server-status'
+														) }
+													</Button>
+												</div>
+											) }
+										</div>
+									) }
+								/>
+							</MediaUploadCheck>
+						</div>
+					</PanelRow>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Additional Links', 'mc-server-status' ) }
+					initialOpen={ false }
+				>
+					<PanelRow>
+						<TextControl
+							label={ __(
+								'Modpack Download URL',
+								'mc-server-status'
+							) }
+							help={ __(
+								'Optional URL for downloading a modpack.',
+								'mc-server-status'
+							) }
+							value={ attributes.modpackUrl }
+							onChange={ ( value ) =>
+								setAttributes( {
+									modpackUrl: value,
 								} )
 							}
 						/>

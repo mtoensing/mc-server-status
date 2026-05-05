@@ -5,7 +5,7 @@
  * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           1.5.3
+ * Version:           1.6.0
  * Author:            Marc Tönsing
  * Author URI: 		  https://toensing.com
  * License:           GPL-2.0-or-later
@@ -129,6 +129,10 @@ function mcsi_renderServerData($serverData, $currentPlayers, $hostname, $port, $
 
 
     $align_class = isset($attributes['align']) ? 'align' . $attributes['align'] : '';
+    $serverName = isset($attributes['serverName']) && $attributes['serverName'] !== '' ? sanitize_text_field($attributes['serverName']) : '';
+    $serverDescription = isset($attributes['serverDescription']) && $attributes['serverDescription'] !== '' ? wp_kses_post($attributes['serverDescription']) : '';
+    $serverIcon = isset($attributes['serverIcon']) && $attributes['serverIcon'] !== '' ? esc_url($attributes['serverIcon']) : '';
+    $modpackUrl = isset($attributes['modpackUrl']) && $attributes['modpackUrl'] !== '' ? esc_url($attributes['modpackUrl']) : '';
 
     // Generate the unique cache key for player data of this server
     $playerDataKey = mcsi_get_server_cache_key($hostname, $port, 'player_data_');
@@ -164,17 +168,29 @@ function mcsi_renderServerData($serverData, $currentPlayers, $hostname, $port, $
 
     // Server metadata output
     $output = "<figure class='wp-block-table is-style-stripes ". $align_class . "'><table class='minecraftserverinfo " . ($serverData['IsOnline'] ? "isonline" : "") . "'>";
-    $output .= "<tr><td><strong>" . __('Status', 'mc-server-status') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? 'Online' : 'Offline') . "</td></tr>";
+    if ($serverName !== '') {
+        $output .= "<tr><td><strong>" . __('Server Name', 'mc-server-status') . "</strong></td><td>" . esc_html($serverName) . "</td></tr>";
+    }
+    if ($serverIcon !== '') {
+        $output .= "<tr><td><strong>" . __('Icon', 'mc-server-status') . "</strong></td><td><img src='" . esc_url($serverIcon) . "' alt='" . esc_attr($serverName !== '' ? $serverName : $hostname) . "' width='32' height='32'></td></tr>";
+    }
+    $output .= "<tr><td><strong>" . __('Status', 'mc-server-status') . "</strong></td><td class='status'>" . ($serverData['IsOnline'] ? esc_html__('Online', 'mc-server-status') : esc_html__('Offline', 'mc-server-status')) . "</td></tr>";
     if (!$serverData['IsOnline'] && !empty($serverData['ErrorMessage'])) {
         $output .= "<tr><td><strong>" . __('Error', 'mc-server-status') . "</strong></td><td>" . esc_html($serverData['ErrorMessage']) . "</td></tr>";
     }
-    $output .= "<tr><td><strong>" . __('Address', 'mc-server-status') . "</strong></td><td>" . $hostname . " <small><a style='cursor: pointer' onclick='copyToClipboard(\"" . $hostname . "\")' >" . __('Copy', 'mc-server-status') . "</a></small></td></tr>";
-    $output .= "<tr><td><strong>" . __('MOTD', 'mc-server-status') . "</strong></td><td>{$serverData['Motd']}</td></tr>";
-    $output .= "<tr><td><strong>" . __('Version', 'mc-server-status') . "</strong></td><td>{$serverData['ServerVersion']}</td></tr>";
+    $output .= "<tr><td><strong>" . __('Address', 'mc-server-status') . "</strong></td><td>" . esc_html($hostname) . " <small><a href='#' class='mcsi-copy-address' data-address='" . esc_attr($hostname) . "' data-port='" . esc_attr($port) . "'>" . __('Copy', 'mc-server-status') . "</a></small></td></tr>";
+    $output .= "<tr><td><strong>" . __('MOTD', 'mc-server-status') . "</strong></td><td>" . esc_html($serverData['Motd']) . "</td></tr>";
+    $output .= "<tr><td><strong>" . __('Version', 'mc-server-status') . "</strong></td><td>" . esc_html($serverData['ServerVersion']) . "</td></tr>";
+    if ($serverDescription !== '') {
+        $output .= "<tr><td><strong>" . __('Description', 'mc-server-status') . "</strong></td><td>" . $serverDescription . "</td></tr>";
+    }
+    if ($modpackUrl !== '') {
+        $output .= "<tr><td><strong>" . __('Modpack', 'mc-server-status') . "</strong></td><td><a href='" . esc_url($modpackUrl) . "' target='_blank' rel='noopener noreferrer'>" . __('Download Modpack', 'mc-server-status') . "</a></td></tr>";
+    }
 
     if ($dynurl != '') {
-        $output .= "<tr><td colspan='2'><iframe height='250' width='100%' src='{$dynurl}' id='dynmap'></iframe>";        
-        $output .= "<p><div class='wp-block-button has-custom-font-size has-small-font-size'><a onclick='handleFullscreen(\"dynmap\");' class='wp-block-button__link wp-element-button'>" . __('Show map in fullscreen', 'mc-server-status') . "</a></div></p>";
+        $output .= "<tr><td colspan='2'><iframe height='250' width='100%' src='" . esc_url($dynurl) . "' id='dynmap' title='" . esc_attr__('Dynmap', 'mc-server-status') . "'></iframe>";        
+        $output .= "<p><div class='wp-block-button has-custom-font-size has-small-font-size'><a href='#' class='wp-block-button__link wp-element-button mcsi-fullscreen-toggle' data-target='dynmap'>" . __('Show map in fullscreen', 'mc-server-status') . "</a></div></p>";
     }
     
     $output .= "</table></figure>";

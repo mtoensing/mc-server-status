@@ -2,7 +2,7 @@
 Tags:              Minecraft, Server, Gutenberg
 Contributors:      MarcDK
 Tested up to:      6.9
-Stable tag:        1.5.3
+Stable tag:        1.6.0
 Requires PHP:      8.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -18,6 +18,8 @@ This plugin provides a dynamic display of your Minecraft server's status, includ
 
 - Real-time Server Status: Instantly view whether your Minecraft server is online or offline.
 - Active Player Display: See a list of currently active players on your server.
+- Optional Server Details: Add a custom server name, description, icon, and modpack download link.
+- Improved Frontend Actions: Copy the full server address with port and open Dynmap fullscreen without inline JavaScript handlers.
 - Supports only Java Minecraft. Bedrock may be supported on popular demand.
 
 = Technology =
@@ -34,6 +36,12 @@ Utilizes the robust PHP-Minecraft-Query library for retrieving server informatio
 1. The Minecraft Server Block.
 
 == Changelog ==
+
+= 1.6.0 =
+* Added optional server name, description, icon, and modpack download URL fields.
+* Improved output escaping for server data and Dynmap embeds.
+* Improved copy-to-clipboard behavior to include the server port.
+* Replaced inline frontend click handlers with delegated JavaScript handlers.
 
 = 1.5.3 =
 * Bugfix: Avoid PHP warnings when the Dynmap URL does not contain a host.
