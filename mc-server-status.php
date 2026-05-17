@@ -5,7 +5,7 @@
  * Description:       Show information about a Minecraft Server in a block.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           1.6.0
+ * Version:           1.6.1
  * Author:            Marc Tönsing
  * Author URI: 		  https://toensing.com
  * License:           GPL-2.0-or-later
